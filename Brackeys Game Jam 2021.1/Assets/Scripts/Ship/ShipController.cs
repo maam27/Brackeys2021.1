@@ -1,19 +1,22 @@
 using System;
+using Input;
 using UnityEngine;
 
 namespace Ship
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(ShipInputHandler))]
     public class ShipController : MonoBehaviour
     {
         private Rigidbody m_Rb;
         private Camera m_MainCam;
+        private ShipInputHandler m_InputHandler;
         public float shipSpeed;
 
         // Start is called before the first frame update
         void Awake()
         {
             m_Rb = GetComponent<Rigidbody>();
+            m_InputHandler = GetComponent<ShipInputHandler>();
             m_MainCam = Camera.main;
         }
 
@@ -24,8 +27,8 @@ namespace Ship
         // Update is called once per frame
         void Update()
         {
-            m_Input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            m_MousePos = GetMousePositionInWorldCoordinates(Input.mousePosition);
+            m_Input = m_InputHandler.GetMovementInput;
+            m_MousePos = GetMousePositionInWorldCoordinates(m_InputHandler.GetMousePositionInput);
             RotateShipTowards(m_MousePos);
         }
 
