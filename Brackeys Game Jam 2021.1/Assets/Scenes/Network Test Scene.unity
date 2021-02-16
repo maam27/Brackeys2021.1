@@ -133,9 +133,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1039892348}
   - component: {fileID: 1039892347}
-  - component: {fileID: 1039892346}
   - component: {fileID: 1039892349}
   - component: {fileID: 1039892345}
+  - component: {fileID: 1039892346}
+  - component: {fileID: 1039892350}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -165,19 +166,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1039892344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0110f245bfcfc7d459681f7bd9ebc590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Port: 7777
-  NoDelay: 1
-  Interval: 10
-  FastResend: 2
-  CongestionWindow: 0
-  SendWindowSize: 4096
-  ReceiveWindowSize: 4096
-  debugLog: 0
-  statisticsGUI: 0
-  statisticsLog: 0
+  port: 7778
+  maxMessageSize: 16384
+  handshakeMaxSize: 3000
+  noDelay: 1
+  sendTimeout: 5000
+  receiveTimeout: 20000
+  serverMaxMessagesPerTick: 10000
+  clientMaxMessagesPerTick: 1000
+  batchSend: 1
+  waitBeforeSend: 0
+  clientUseWss: 0
+  sslEnabled: 0
+  sslCertJson: ./cert.json
+  sslProtocols: 3072
+  _logLevels: 0
 --- !u!114 &1039892347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,9 +205,9 @@ MonoBehaviour:
   serverBatchInterval: 0
   offlineScene: 
   onlineScene: 
-  transport: {fileID: 1039892346}
-  networkAddress: localhost
-  maxConnections: 4
+  transport: {fileID: 1039892350}
+  networkAddress: 34.91.137.68
+  maxConnections: 2
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
@@ -254,6 +260,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1039892350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039892344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7064b1b1d0671194baf55fa8d5f564d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientToServerTransport: {fileID: 1039892346}
+  serverIP: 34.91.137.68
+  heartBeatInterval: 3
+  connectOnAwake: 1
+  authenticationKey: Secret Auth Key
+  diconnectedFromRelay:
+    m_PersistentCalls:
+      m_Calls: []
+  serverName: My awesome server!
+  extraServerData: Map 1
+  maxServerPlayers: 2
+  isPublicServer: 1
+  serverListUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  serverId: -1
 --- !u!1 &1060222900
 GameObject:
   m_ObjectHideFlags: 0

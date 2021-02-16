@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "lsZPFFKXAb4oPec0SZJaw9kcgliJeBJ834PAshnAM/yCKryU4Ruw1qOmy/3YiA8v10TE+zdK37v1Ap9dkkCEuw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\epicd\\Documents\\Unity Projects\\Brackeys2021.1\\Relay Server Transport\\SimpleWebTransportCompiled\\SimpleWebTransportCompiled\\SimpleWebTransportCompiled.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\epicd\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
+  ],
+  "logs": []
+}

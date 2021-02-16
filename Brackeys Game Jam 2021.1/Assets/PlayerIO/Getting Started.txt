@@ -1,0 +1,13 @@
+Getting started
+===============
+
+The Unity3D client supports all the PlayerIO tools and services and 
+works in all Unity3D enviroments: Standalone, iOS, Android, WebGL, etc.
+
+PlayerIO.unitypackage can be used to import PlayerIOUnity3DClient.dll to your "Plugins" folder under the "Assets" folder of your Unity project.
+
+Examples:
+
+* Example - Multiplayer - Mushrooms
+  Read the "Getting Started.txt" file in the 
+  "Example - Multiplayer - Mushrooms" folder
