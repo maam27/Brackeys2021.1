@@ -179,6 +179,14 @@
           <e p="PlayerController.cs" t="Include" />
           <e p="Ship" t="Include">
             <e p="ShipController.cs" t="Include" />
+            <e p="Weapons" t="Include">
+              <e p="BaseFireBehaviour.cs" t="Include" />
+              <e p="ProjectileFire.cs" t="Include" />
+              <e p="Weapon Fire" t="Include">
+                <e p="Bullet.cs" t="Include" />
+              </e>
+              <e p="Weapon.cs" t="Include" />
+            </e>
             <e p="WeaponSystems.cs" t="Include" />
           </e>
         </e>
