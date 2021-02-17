@@ -176,6 +176,13 @@
           <e p="Input" t="Include">
             <e p="ShipInputHandler.cs" t="Include" />
           </e>
+          <e p="Interactivity" t="Include">
+            <e p="DamageableComponent.cs" t="Include" />
+          </e>
+          <e p="Level" t="Include">
+            <e p="Asteroid.cs" t="Include" />
+            <e p="LevelManager.cs" t="Include" />
+          </e>
           <e p="PlayerController.cs" t="Include" />
           <e p="Ship" t="Include">
             <e p="ShipController.cs" t="Include" />

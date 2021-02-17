@@ -1,15 +1,17 @@
 using System;
 using Input;
+using Interactivity;
 using UnityEngine;
 
 namespace Ship
 {
-    [RequireComponent(typeof(Rigidbody), typeof(ShipInputHandler))]
+    [RequireComponent(typeof(Rigidbody), typeof(ShipInputHandler), typeof(DamageableComponent))]
     public class ShipController : MonoBehaviour
     {
         private Rigidbody m_Rb;
         private Camera m_MainCam;
         private ShipInputHandler m_InputHandler;
+        private DamageableComponent m_DamageComponent;
         public float shipSpeed;
 
         // Start is called before the first frame update
@@ -17,6 +19,7 @@ namespace Ship
         {
             m_Rb = GetComponent<Rigidbody>();
             m_InputHandler = GetComponent<ShipInputHandler>();
+            m_DamageComponent = GetComponent<DamageableComponent>();
             m_MainCam = Camera.main;
         }
 
@@ -67,6 +70,12 @@ namespace Ship
 
             else
                 m_Rb.velocity = Vector3.Lerp(m_Rb.velocity, Vector3.zero, 0.05f);
+        }
+
+        public void KIllPlayer()
+        {
+            m_DamageComponent.Die();
+            Debug.Log("Player Died!");
         }
     }
 }
