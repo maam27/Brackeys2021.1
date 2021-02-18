@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="972fdf27-ebd9-49d9-9713-906b7e7caa65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayerIO.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Ship Prefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Ship Prefab.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon Fire/Bullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon Fire/Bullet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +33,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3CAC690A-C35D-41D7-B077-BBE6DD7026F8/ae/cf7cfd49/Input.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Input/ShipInputHandler.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -47,15 +43,17 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Input/ShipInputHandler.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseWeapon.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileWeapon.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Damageable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon Fire/Bullet.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Editor/Property Drawers/ScriptableExposerDrawer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Level/Asteroid.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" />
     </changedPaths>
   </component>
@@ -105,6 +103,7 @@
       <workItem from="1613306470195" duration="853000" />
       <workItem from="1613314820589" duration="2028000" />
       <workItem from="1613471834099" duration="10485000" />
+      <workItem from="1613649095180" duration="4942000" />
     </task>
     <servers />
   </component>

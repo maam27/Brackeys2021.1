@@ -3,6 +3,7 @@ using Input;
 using Ship.Weapons;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility.Attributes;
 
 namespace Ship
 {
@@ -10,7 +11,7 @@ namespace Ship
     public class WeaponSystems : MonoBehaviour
     {
         private ShipInputHandler m_InputHandler;
-        public Weapon currentWeapon;
+        [Expose] public Weapon currentWeapon;
         public Transform weaponBarrel;
 
         // Start is called before the first frame update

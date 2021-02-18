@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ship;
 using UnityEngine;
+using Utility.Attributes;
 using Random = UnityEngine.Random;
 
 namespace Level
@@ -32,12 +33,11 @@ namespace Level
 
 
         private ShipController m_PlayerShip;
+        private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
 
 
         [Header("Asteroid Information")] public List<Asteroid> asteroidPrefabs;
-        public float startingAsteroidAmm, maxAsteroidAmm;
-        public float asteroidAmmRate;
-        [Range(1, 0.01f)] public float minAsteroidSpawnRate, maxAsteroidSpawnRate;
+        [Expose] public AsteroidSettings asteroidSettings;
 
         [Space] public Vector2 levelSize;
 
@@ -56,39 +56,91 @@ namespace Level
 
         private IEnumerator SpawnAsteroids()
         {
-            float currentAsteroidAmm = 5f;
-            float minDelay = 5f, maxDelay = 10f;
+            #region Get Settings
+
+            bool doSettingsExist = asteroidSettings;
+            int currentAsteroidAmm = 5;
+            float minDelay = doSettingsExist ? asteroidSettings.minSpawnDelay : 5f,
+                maxDelay = doSettingsExist ? asteroidSettings.maxSpawnDelay : 10f;
+            float spawnRange = (doSettingsExist ? asteroidSettings.spawnRadiusNearPlayer : 3f);
+
+            StartCoroutine(RemoveExcessAsteroids(spawnRange));
+
+            Vector2 minDelayDecrement =
+                doSettingsExist ? asteroidSettings.minSpawnDelayDecrementRange : new Vector2(1, 3);
+            Vector2 maxDelayDecrement =
+                doSettingsExist ? asteroidSettings.maxSpawnDelayDecrementRange : new Vector2(1, 3);
+            Vector2Int asteroidIncrementRange =
+                doSettingsExist ? asteroidSettings.asteroidIncrementRange : new Vector2Int(2, 4);
+
+            #endregion
+
             while (true)
             {
                 for (int i = 0; i < currentAsteroidAmm; i++)
                 {
                     Asteroid obj = ObjectPooler
-                        .GetPooledObject(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Count - 1)].gameObject)
+                        .GetPooledObject(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Count - 1)].gameObject, 1000)?
                         .GetComponent<Asteroid>();
+                    if (!obj)
+                    {
+                        yield return new WaitForEndOfFrame();
+                        continue;
+                    }
+
                     obj.gameObject.SetActive(true);
+                    Vector3 randomPos;
+                    var transform1 = obj.transform;
+                    transform1.position =
+                        new Vector3((randomPos = Random.onUnitSphere).x, 0, randomPos.z) * spawnRange +
+                        m_PlayerShip.transform.position;
+                    obj.transform.rotation = Quaternion.LookRotation(GetDirectionToPlayer(transform1), Vector3.up);
+
+                    obj.InitDirection = transform1.forward * (Random.Range(obj.minVelocity, obj.maxVelocity) * 100f);
+                    obj.InitDirection = new Vector3(obj.InitDirection.x, 0, obj.InitDirection.z);
+
+                    m_RegistedAsteroids.Add(obj);
                     yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
                 }
 
-                maxDelay -= Random.Range(1, 3);
-                minDelay -= Random.Range(1, 3);
-                currentAsteroidAmm += Random.Range(2, 4);
-                yield return new WaitForEndOfFrame();
+
+                maxDelay -= Random.Range(minDelayDecrement.x, minDelayDecrement.y);
+                minDelay -= Random.Range(maxDelayDecrement.x, maxDelayDecrement.y);
+                currentAsteroidAmm += Random.Range(asteroidIncrementRange.x, asteroidIncrementRange.y);
             }
 
             yield return null;
         }
 
+        private IEnumerator RemoveExcessAsteroids(float spawnRange)
+        {
+            while (true)
+            {
+                List<Asteroid> foundAsteroinds = m_RegistedAsteroids.FindAll(a =>
+                    Vector3.Distance(a.transform.position, m_PlayerShip.transform.position) > spawnRange);
+
+                foreach (var asteroid in foundAsteroinds)
+                {
+                    asteroid.gameObject.SetActive(false);
+                    m_RegistedAsteroids.Remove(asteroid);
+                    yield return new WaitForEndOfFrame();
+                }
+
+                yield return null;
+            }
+        }
+
         private void KIllPlayerOnExceedingPosLeveLSize()
         {
-            if (IsFloatWithinLimits(m_PlayerShip.transform.position.x, levelSize.x) ||
-                IsFloatWithinLimits(m_PlayerShip.transform.position.z, levelSize.y))
+            if (IsFloatNotWithinLimits(m_PlayerShip.transform.position.x, levelSize.x) &&
+                IsFloatNotWithinLimits(m_PlayerShip.transform.position.z, levelSize.y))
             {
                 m_PlayerShip.KIllPlayer();
             }
         }
 
 
-        public bool IsFloatWithinLimits(float currentFloat, float limit)
+        public bool IsFloatNotWithinLimits(float currentFloat, float limit)
         {
             return currentFloat >= limit | currentFloat <= -limit;
         }
@@ -107,6 +159,17 @@ namespace Level
             Gizmos.color = Color.blue - new Color(0, 0, 0, 0.75f);
 
             Gizmos.DrawCube(Vector3.zero, new Vector3(levelSize.x, 1, levelSize.y));
+
+
+            if (!asteroidSettings || !m_PlayerShip) return;
+
+            Gizmos.color = Color.green - new Color(0, 0, 0, 0.5f);
+            Gizmos.DrawSphere(m_PlayerShip.transform.position, asteroidSettings.spawnRadiusNearPlayer);
+        }
+
+        public Vector3 GetDirectionToPlayer(Transform transform1)
+        {
+            return (m_PlayerShip.transform.position - transform1.position).normalized;
         }
     }
 
@@ -144,14 +207,14 @@ namespace Level
             return true;
         }
 
-        public static GameObject GetPooledObject(GameObject objToFind)
+        public static GameObject GetPooledObject(GameObject objToFind, int objectToPoolAmm = 500)
         {
             if (objToFind == null) return null;
             int id = objToFind.GetInstanceID();
 
             if (PoolerDictionary.ContainsKey(id))
                 return PoolerDictionary[id].FirstOrDefault(g => !g.activeSelf);
-            if (PoolGameObject(objToFind))
+            if (PoolGameObject(objToFind, objectToPoolAmm))
             {
                 return GetPooledObject(objToFind);
             }

@@ -429,6 +429,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1190041594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190041596}
+  - component: {fileID: 1190041595}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1190041595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190041594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53d89b6831bfc9f428940eb32c0b114f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidPrefabs:
+  - {fileID: 5889890148737087439, guid: 8428cb18da7e6ef4fb66524009613d09, type: 3}
+  - {fileID: 4489571741853542915, guid: 8601222c398511040b485309dec3d4c7, type: 3}
+  - {fileID: 2718047715545976494, guid: 90901ba830e2cb44ba3da86b3f596fbc, type: 3}
+  asteroidSettings: {fileID: 11400000, guid: 2247175e19ffe89489daeebd5a6a6787, type: 2}
+  levelSize: {x: 1000, y: 1000}
+--- !u!4 &1190041596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190041594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.043913, y: 63.707104, z: 64.62142}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8736628195029343147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -436,30 +485,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 547581492714341114, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 21.667841
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053039786455485030, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_XDamping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053039786455485030, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_YDamping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053039786455485030, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_ZDamping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053039786455485030, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_YawDamping
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053039786455485030, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
-      propertyPath: m_FollowOffset.y
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 6678683709224568227, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -508,5 +533,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8736628196647868879, guid: ef6e8309044c87449b4d782473a546f2, type: 3}
+      propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: f81068a8d8abe72459906d86e2ea936c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef6e8309044c87449b4d782473a546f2, type: 3}

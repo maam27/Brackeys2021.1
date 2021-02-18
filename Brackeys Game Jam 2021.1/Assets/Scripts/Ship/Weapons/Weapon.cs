@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Ship.Weapons
 {
@@ -8,8 +9,7 @@ namespace Ship.Weapons
         public float fireRate;
         private float m_CurrentTime;
 
-
-        public BaseFireBehaviour fireBehaivourCallback;
+        [Expose] public BaseFireBehaviour fireBehaivourCallback;
 
         public void Fire(bool fireButton, Transform holder = null)
         {
