@@ -32,27 +32,131 @@ namespace Level
         #endregion
 
 
-        private ShipController m_PlayerShip;
-        private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
-
-
         [Header("Asteroid Information")] public List<Asteroid> asteroidPrefabs;
         [Expose] public AsteroidSettings asteroidSettings;
-
         [Space] public Vector2 levelSize;
+        [Header("Game Goals")] public List<Vector3> targetWaypointsToTraverseTo = new List<Vector3>();
+        public float proximityDistanceOnTargetWaypoint = 0.1f;
+        public GameObject trackerPrefab;
+        [Header("Debug Stuff")] public bool spawnAsteroids = true;
 
+
+        public bool IsCurrentlyPlaying { private get; set; } = true;
+
+        private ShipController m_PlayerShip;
+        private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
+        [SerializeField] private int m_CurrentTargetFocus = 0;
+        private GameObject m_RegistedTracker;
 
         private void Awake()
         {
             m_PlayerShip = FindObjectOfType<ShipController>();
-            StartCoroutine(SpawnAsteroids());
+            if (spawnAsteroids)
+                StartCoroutine(SpawnAsteroids());
         }
 
 
         private void Update()
         {
             KIllPlayerOnExceedingPosLeveLSize();
+            DetectIfPlayerHasReachedCurrentTarget();
+            TrackTargetPosition();
         }
+
+        private void TrackTargetPosition()
+        {
+            if (!m_RegistedTracker)
+            {
+                m_RegistedTracker = Instantiate(trackerPrefab);
+            }
+            else if (!m_RegistedTracker.activeSelf)
+                m_RegistedTracker.SetActive(true);
+
+            if (m_CurrentTargetFocus < targetWaypointsToTraverseTo.Count)
+            {
+                var position = m_PlayerShip.transform.position;
+                Vector3 dir = targetWaypointsToTraverseTo[m_CurrentTargetFocus] - position;
+                m_RegistedTracker.transform.localRotation = Quaternion.LookRotation(
+                    dir,
+                    Vector3.up);
+                Debug.DrawRay(m_PlayerShip.transform.position, dir);
+                m_RegistedTracker.transform.position = position;
+            }
+
+            else
+            {
+                m_RegistedTracker.SetActive(false);
+            }
+        }
+
+        private void DetectIfPlayerHasReachedCurrentTarget()
+        {
+            if (!m_PlayerShip) return;
+            if (m_CurrentTargetFocus < targetWaypointsToTraverseTo.Count && IsObjectInVicinityOfAnotherObject(
+                m_PlayerShip.transform.position,
+                targetWaypointsToTraverseTo[m_CurrentTargetFocus], proximityDistanceOnTargetWaypoint))
+            {
+                m_CurrentTargetFocus++;
+                Debug.Log("Reached Goal! Proceeding to the next goal!");
+            }
+
+            if (m_CurrentTargetFocus >= targetWaypointsToTraverseTo.Count)
+            {
+                Debug.Log("Game completed");
+                OnGameComplete();
+                m_CurrentTargetFocus = 0;
+            }
+        }
+
+        private void OnGameComplete()
+        {
+            
+        }
+
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue - new Color(0, 0, 0, 0.75f);
+
+            Gizmos.DrawCube(Vector3.zero, new Vector3(levelSize.x, 1, levelSize.y));
+
+
+            if (asteroidSettings)
+            {
+                Gizmos.color = Color.green - new Color(0, 0, 0, 0.5f);
+                Gizmos.DrawSphere(m_PlayerShip ? m_PlayerShip.transform.position : Vector3.zero,
+                    asteroidSettings.spawnRadiusNearPlayer);
+            }
+
+
+            if (targetWaypointsToTraverseTo.Count != 0)
+            {
+                Vector3 waypointA, waypointB = Vector3.zero;
+                for (var i = 0; i < targetWaypointsToTraverseTo.Count; i++)
+                {
+                    waypointA = targetWaypointsToTraverseTo[i];
+                    var isWithinList = i + 1 < targetWaypointsToTraverseTo.Count;
+                    if (isWithinList)
+                        waypointB = targetWaypointsToTraverseTo[i + 1];
+
+
+                    Gizmos.color = Color.yellow;
+                    if (i == 0 || i == targetWaypointsToTraverseTo.Count - 1)
+                        Gizmos.DrawSphere(waypointA, 1f);
+                    else
+                        Gizmos.DrawCube(waypointA, Vector3.one / 2f);
+                    Gizmos.DrawCube(waypointB, Vector3.one / 2f);
+                    Gizmos.color = Color.cyan;
+                    if (waypointB != Vector3.zero)
+                        Gizmos.DrawLine(waypointA, waypointB);
+
+                    Gizmos.color = Color.green - new Color(0, 0, 0, 0.5f);
+                    Gizmos.DrawSphere(waypointA, proximityDistanceOnTargetWaypoint);
+                }
+            }
+        }
+
+        #region Asteroid Implementation
 
         private IEnumerator SpawnAsteroids()
         {
@@ -107,9 +211,9 @@ namespace Level
                 maxDelay -= Random.Range(minDelayDecrement.x, minDelayDecrement.y);
                 minDelay -= Random.Range(maxDelayDecrement.x, maxDelayDecrement.y);
                 currentAsteroidAmm += Random.Range(asteroidIncrementRange.x, asteroidIncrementRange.y);
-            }
 
-            yield return null;
+                if (!IsCurrentlyPlaying) break;
+            }
         }
 
         private IEnumerator RemoveExcessAsteroids(float spawnRange)
@@ -127,8 +231,13 @@ namespace Level
                 }
 
                 yield return null;
+                if (!IsCurrentlyPlaying) break;
             }
         }
+
+        #endregion
+
+        #region Helper Methods
 
         private void KIllPlayerOnExceedingPosLeveLSize()
         {
@@ -150,27 +259,22 @@ namespace Level
             float minDistanceBetweenObjects)
         {
             float distance = Vector3.Distance(objectA.transform.position, objectB.transform.position);
-            return distance >= minDistanceBetweenObjects;
+            return distance < minDistanceBetweenObjects;
         }
 
-
-        private void OnDrawGizmos()
+        public bool IsObjectInVicinityOfAnotherObject(Vector3 objectA, Vector3 objectB,
+            float minDistanceBetweenObjects)
         {
-            Gizmos.color = Color.blue - new Color(0, 0, 0, 0.75f);
-
-            Gizmos.DrawCube(Vector3.zero, new Vector3(levelSize.x, 1, levelSize.y));
-
-
-            if (!asteroidSettings || !m_PlayerShip) return;
-
-            Gizmos.color = Color.green - new Color(0, 0, 0, 0.5f);
-            Gizmos.DrawSphere(m_PlayerShip.transform.position, asteroidSettings.spawnRadiusNearPlayer);
+            float distance = Vector3.Distance(objectA, objectB);
+            return distance <= minDistanceBetweenObjects;
         }
 
         public Vector3 GetDirectionToPlayer(Transform transform1)
         {
             return (m_PlayerShip.transform.position - transform1.position).normalized;
         }
+
+        #endregion
     }
 
 

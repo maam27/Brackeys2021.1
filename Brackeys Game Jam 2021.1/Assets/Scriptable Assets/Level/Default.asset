@@ -19,4 +19,4 @@ MonoBehaviour:
   minSpawnDelayDecrementRange: {x: 0.5, y: 1}
   maxSpawnDelay: 5
   maxSpawnDelayDecrementRange: {x: 1.5, y: 3}
-  spawnRadiusNearPlayer: 100
+  spawnRadiusNearPlayer: 75

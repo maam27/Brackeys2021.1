@@ -464,6 +464,15 @@ MonoBehaviour:
   - {fileID: 2718047715545976494, guid: 90901ba830e2cb44ba3da86b3f596fbc, type: 3}
   asteroidSettings: {fileID: 11400000, guid: 2247175e19ffe89489daeebd5a6a6787, type: 2}
   levelSize: {x: 1000, y: 1000}
+  targetWaypointsToTraverseTo:
+  - {x: 255.03409, y: 0, z: -57.66432}
+  - {x: 72.08924, y: 0, z: -317.4613}
+  - {x: -299.60123, y: 0, z: -168.09781}
+  - {x: -393.36374, y: 0, z: 56.845535}
+  proximityDistanceOnTargetWaypoint: 5
+  trackerPrefab: {fileID: 8516017862926820602, guid: b21c288b0ee7def4aab7a74c56eb354c, type: 3}
+  spawnAsteroids: 0
+  m_CurrentTargetFocus: 0
 --- !u!4 &1190041596
 Transform:
   m_ObjectHideFlags: 0
