@@ -214,6 +214,7 @@ namespace Editor.PropertyDrawers
             EditorGUI.PropertyField(r, it, it.isExpanded);
             EditorGUI.EndDisabledGroup();
             r.y += r.height + _spacing;
+            it.serializedObject.ApplyModifiedProperties();
         }
 
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ship;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Utility.Attributes;
 using Random = UnityEngine.Random;
 
@@ -35,22 +36,27 @@ namespace Level
         [Header("Asteroid Information")] public List<Asteroid> asteroidPrefabs;
         [Expose] public AsteroidSettings asteroidSettings;
         [Space] public Vector2 levelSize;
+        [Header("Debug Stuff - Asteroids")] public bool spawnAsteroids = true;
+        public bool manuallyControlAsteroidSpawnRate;
+        public float spawnRate;
+        public int asteroidSpawnAmount;
         [Header("Game Goals")] public List<Vector3> targetWaypointsToTraverseTo = new List<Vector3>();
         public float proximityDistanceOnTargetWaypoint = 0.1f;
         public GameObject trackerPrefab;
-        [Header("Debug Stuff")] public bool spawnAsteroids = true;
 
 
         public bool IsCurrentlyPlaying { private get; set; } = true;
+        public ShipController GetPlayerReference { get; private set; }
 
         private ShipController m_PlayerShip;
         private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
-        [SerializeField] private int m_CurrentTargetFocus = 0;
+        [Space] [SerializeField] private int m_CurrentTargetFocus = 0;
         private GameObject m_RegistedTracker;
 
         private void Awake()
         {
             m_PlayerShip = FindObjectOfType<ShipController>();
+            GetPlayerReference = m_PlayerShip;
             if (spawnAsteroids)
                 StartCoroutine(SpawnAsteroids());
         }
@@ -110,7 +116,6 @@ namespace Level
 
         private void OnGameComplete()
         {
-            
         }
 
 
@@ -156,6 +161,16 @@ namespace Level
             }
         }
 
+
+        private BoxCollider m_ChildCollider;
+
+        private void OnValidate()
+        {
+            m_ChildCollider = m_ChildCollider ? m_ChildCollider : transform.GetChild(0).GetComponent<BoxCollider>();
+
+            m_ChildCollider.size = new Vector3(levelSize.x, 1, levelSize.y);
+        }
+
         #region Asteroid Implementation
 
         private IEnumerator SpawnAsteroids()
@@ -164,23 +179,16 @@ namespace Level
 
             bool doSettingsExist = asteroidSettings;
             int currentAsteroidAmm = 5;
-            float minDelay = doSettingsExist ? asteroidSettings.minSpawnDelay : 5f,
-                maxDelay = doSettingsExist ? asteroidSettings.maxSpawnDelay : 10f;
             float spawnRange = (doSettingsExist ? asteroidSettings.spawnRadiusNearPlayer : 3f);
 
             StartCoroutine(RemoveExcessAsteroids(spawnRange));
-
-            Vector2 minDelayDecrement =
-                doSettingsExist ? asteroidSettings.minSpawnDelayDecrementRange : new Vector2(1, 3);
-            Vector2 maxDelayDecrement =
-                doSettingsExist ? asteroidSettings.maxSpawnDelayDecrementRange : new Vector2(1, 3);
-            Vector2Int asteroidIncrementRange =
-                doSettingsExist ? asteroidSettings.asteroidIncrementRange : new Vector2Int(2, 4);
 
             #endregion
 
             while (true)
             {
+                AsteroidField asteroidField = asteroidSettings.GetARandomAsteroidFieldConfiguration();
+                currentAsteroidAmm = manuallyControlAsteroidSpawnRate ? asteroidSpawnAmount : asteroidField.spawnAmount;
                 for (int i = 0; i < currentAsteroidAmm; i++)
                 {
                     Asteroid obj = ObjectPooler
@@ -204,13 +212,12 @@ namespace Level
                     obj.InitDirection = new Vector3(obj.InitDirection.x, 0, obj.InitDirection.z);
 
                     m_RegistedAsteroids.Add(obj);
-                    yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
+                    yield return new WaitForSeconds(manuallyControlAsteroidSpawnRate
+                        ? spawnRate
+                        : asteroidField.spawnRate);
                 }
 
-
-                maxDelay -= Random.Range(minDelayDecrement.x, minDelayDecrement.y);
-                minDelay -= Random.Range(maxDelayDecrement.x, maxDelayDecrement.y);
-                currentAsteroidAmm += Random.Range(asteroidIncrementRange.x, asteroidIncrementRange.y);
+                yield return new WaitForSeconds(asteroidField.delayToSpawnNextAsteroidField);
 
                 if (!IsCurrentlyPlaying) break;
             }
@@ -309,6 +316,12 @@ namespace Level
                 PoolerDictionary.Add(id, pooledObjects);
 
             return true;
+        }
+
+        public static TGameObject GetPooledObject<TGameObject>(TGameObject objToFind, int objectToPoolAmm = 500)
+            where TGameObject : MonoBehaviour
+        {
+            return GetPooledObject(objToFind.gameObject, objectToPoolAmm)?.GetComponent<TGameObject>();
         }
 
         public static GameObject GetPooledObject(GameObject objToFind, int objectToPoolAmm = 500)

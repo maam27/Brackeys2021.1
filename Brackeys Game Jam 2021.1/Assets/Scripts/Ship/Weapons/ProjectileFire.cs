@@ -19,6 +19,7 @@ namespace Ship.Weapons
             spawnedBullet.lifetime = bulletLifetime;
             spawnedBullet.velocity = bulletVelocity;
             spawnedBullet.damage = bulletDamage;
+            spawnedBullet.ownerID = owner.GetInstanceID();
             var transform = spawnedBullet.transform;
             if (owner)
             {

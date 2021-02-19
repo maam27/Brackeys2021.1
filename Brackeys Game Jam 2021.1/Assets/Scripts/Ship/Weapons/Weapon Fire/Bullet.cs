@@ -13,6 +13,7 @@ namespace Ship.Weapons.Weapon_Fire
         private float m_CurrentLifetime;
 
         internal float lifetime, damage, velocity;
+        internal float ownerID;
 
         private void OnEnable()
         {
@@ -61,7 +62,7 @@ namespace Ship.Weapons.Weapon_Fire
         private void OnCollisionEnter(Collision other)
         {
             if (other.collider.GetComponent<DamageableComponent>() is { } damageableComponent &&
-                damageableComponent != null && other.gameObject.GetComponent<ShipController>() == null)
+                damageableComponent != null && other.collider.GetInstanceID() != ownerID)
             {
                 damageableComponent.TakeDamage(damage);
             }

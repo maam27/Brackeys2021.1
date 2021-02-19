@@ -191,6 +191,10 @@
           <e p="Level" t="Include">
             <e p="Asteroid.cs" t="Include" />
             <e p="AsteroidSettings.cs" t="Include" />
+            <e p="Enemies" t="Include">
+              <e p="BaseEnemy.cs" t="Include" />
+              <e p="Fighter.cs" t="Include" />
+            </e>
             <e p="LevelManager.cs" t="Include" />
           </e>
           <e p="PlayerController.cs" t="Include" />

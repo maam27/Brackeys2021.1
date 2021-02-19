@@ -241,6 +241,50 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &606380326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 606380327}
+  - component: {fileID: 606380328}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &606380327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606380326}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1190041596}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &606380328
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606380326}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1000, y: 1, z: 1000}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &858874084
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +508,10 @@ MonoBehaviour:
   - {fileID: 2718047715545976494, guid: 90901ba830e2cb44ba3da86b3f596fbc, type: 3}
   asteroidSettings: {fileID: 11400000, guid: 2247175e19ffe89489daeebd5a6a6787, type: 2}
   levelSize: {x: 1000, y: 1000}
+  spawnAsteroids: 1
+  manuallyControlAsteroidSpawnRate: 0
+  spawnRate: 0.5
+  asteroidSpawnAmount: 0
   targetWaypointsToTraverseTo:
   - {x: 255.03409, y: 0, z: -57.66432}
   - {x: 72.08924, y: 0, z: -317.4613}
@@ -471,7 +519,6 @@ MonoBehaviour:
   - {x: -393.36374, y: 0, z: 56.845535}
   proximityDistanceOnTargetWaypoint: 5
   trackerPrefab: {fileID: 8516017862926820602, guid: b21c288b0ee7def4aab7a74c56eb354c, type: 3}
-  spawnAsteroids: 0
   m_CurrentTargetFocus: 0
 --- !u!4 &1190041596
 Transform:
@@ -481,9 +528,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190041594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.043913, y: 63.707104, z: 64.62142}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 606380327}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

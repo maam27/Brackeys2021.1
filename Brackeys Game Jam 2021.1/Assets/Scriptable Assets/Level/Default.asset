@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingAsteroidAmm: 5
   maxAsteroidAmm: 100
-  asteroidIncrementRange: {x: 1, y: 5}
-  minSpawnDelay: 1.5
-  minSpawnDelayDecrementRange: {x: 0.5, y: 1}
-  maxSpawnDelay: 5
-  maxSpawnDelayDecrementRange: {x: 1.5, y: 3}
+  asteroidFields:
+  - spawnRate: 2
+    spawnAmount: 5
+    delayToSpawnNextAsteroidField: 3
+  - spawnRate: 0.75
+    spawnAmount: 12
+    delayToSpawnNextAsteroidField: 5
+  - spawnRate: 0.5
+    spawnAmount: 15
+    delayToSpawnNextAsteroidField: 3
   spawnRadiusNearPlayer: 75

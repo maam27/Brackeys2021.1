@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Level
 {
@@ -8,17 +11,26 @@ namespace Level
         [Header("Asteroid Spawn Amount information")]
         public int startingAsteroidAmm;
         public int maxAsteroidAmm;
-        public Vector2Int asteroidIncrementRange;
-        
-        [Header("Minimum Spawn Rate")]
-        public float minSpawnDelay;
-        public Vector2 minSpawnDelayDecrementRange;
-        
-        [Header("Maximum Spawn Rate")]
-        public float maxSpawnDelay;
-        public Vector2 maxSpawnDelayDecrementRange;
+
+
+        [Header("Different Asteroid Field Configurations")]
+        public List<AsteroidField> asteroidFields = new List<AsteroidField>();
         
         [Header("Other")]
         public float spawnRadiusNearPlayer;
+
+
+        public AsteroidField GetARandomAsteroidFieldConfiguration()
+        {
+            return asteroidFields[Random.Range(0, asteroidFields.Count - 1)];
+        }
+    }
+
+    [Serializable]
+    public struct AsteroidField
+    {
+        public float spawnRate;
+        public int spawnAmount;
+        public float delayToSpawnNextAsteroidField;
     }
 }
