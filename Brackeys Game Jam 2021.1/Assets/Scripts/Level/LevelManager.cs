@@ -5,6 +5,7 @@ using System.Linq;
 using Interactivity;
 using Level.Enemies;
 using Ship;
+using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility.Attributes;
@@ -69,11 +70,12 @@ namespace Level
 
         private ShipController m_PlayerShip;
         private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
+        private List<BaseEnemy> m_RegistedEnemies = new List<BaseEnemy>();
         private TargetWaypointListProfile m_SelectedProfile;
         [Space] [SerializeField] private int currentTargetFocus = 0;
         private GameObject m_RegistedTracker;
         private Coroutine m_AsteroidCoroutine, m_EnemyCoroutine;
-        
+
 
         public void StartGame()
         {
@@ -84,7 +86,11 @@ namespace Level
                         : targetTWProfile];
 
 
-            m_PlayerShip = m_PlayerShip ? m_PlayerShip : FindObjectOfType<ShipController>();
+            m_PlayerShip = m_PlayerShip
+                ? m_PlayerShip
+                : FindObjectOfType<ShipController>() ?? Instantiate(Resources.Load<GameObject>("Player/Ship"), Vector3.zero, Quaternion.identity).GetComponentInChildren<ShipController>();
+            if (!m_PlayerShip)
+                throw new NullReferenceException($"Couldnt find the player ship");
             m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback += ONGameOver;
             GetPlayerReference = m_PlayerShip;
             if (spawnAsteroids)
@@ -104,6 +110,7 @@ namespace Level
 
         private void TrackTargetPosition()
         {
+            if (!m_SelectedProfile || !m_PlayerShip) return;
             if (!m_RegistedTracker)
             {
                 m_RegistedTracker = Instantiate(trackerPrefab);
@@ -154,8 +161,8 @@ namespace Level
 
             if (m_EnemyCoroutine != null)
                 StopCoroutine(m_EnemyCoroutine);
-            
-            
+
+
             ONGameComplete?.Invoke();
             m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback -= ONGameOver;
         }
@@ -302,7 +309,7 @@ namespace Level
                         m_PlayerShip.transform.position;
 
                     enemy.gameObject.SetActive(true);
-
+                    m_RegistedEnemies.Add(enemy);
                     yield return new WaitForSeconds(profile.enemySpawnRate);
                 }
 
@@ -340,6 +347,7 @@ namespace Level
 
         private void KIllPlayerOnExceedingPosLeveLSize()
         {
+            if (!m_PlayerShip) return;
             if (!IsPositionWithinZone(m_PlayerShip.transform.position))
             {
                 m_PlayerShip.KIllPlayer();
@@ -378,6 +386,34 @@ namespace Level
         }
 
         #endregion
+
+        public void DestroyAllRegistedObjects()
+        {
+            //Clear enemies
+            for (int i = 0; i < m_RegistedEnemies.Count; i++)
+            {
+                BaseEnemy enemy = m_RegistedEnemies[i];
+                enemy.gameObject.SetActive(false);
+                m_RegistedEnemies.Remove(enemy);
+            }
+
+
+            //Clear asteroids
+            for (int i = 0; i < m_RegistedAsteroids.Count; i++)
+            {
+                Asteroid asteroid = m_RegistedAsteroids[i];
+                asteroid.gameObject.SetActive(false);
+                m_RegistedAsteroids.Remove(asteroid);
+            }
+
+            //Find and clear the remaining bullets
+            List<Bullet> foundBullets = FindObjectsOfType<Bullet>().ToList();
+
+            for (int i = 0; i < foundBullets.Count; i++)
+            {
+                foundBullets[i].gameObject.SetActive(false);
+            }
+        }
     }
 
 

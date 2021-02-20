@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3813065652324447719}
-  m_LocalRotation: {x: 0.70090926, y: -4.0482838e-32, z: 3.9782376e-32, w: 0.7132505}
-  m_LocalPosition: {x: 5.666418, y: 21.667841, z: -5.1175146}
+  m_LocalRotation: {x: 0.70090926, y: -0, z: -0, w: 0.7132505}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4877729672185296905}
@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6678683709224568227}
   m_Layer: 0
-  m_Name: Ship Prefab
+  m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8557028041087310980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.666418, y: -1.6678405, z: 5.1175146}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8736628196647868872}
@@ -200,21 +200,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6678683709224568227}
     m_Modifications:
+    - target: {fileID: 2006955857400000905, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
+      propertyPath: m_Range
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2006955857400000905, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
+      propertyPath: m_Intensity
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2041554226189678737, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2041554226189678737, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.666418
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2041554226189678737, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6678405
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2041554226189678737, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.1175146
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2041554226189678737, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_LocalRotation.w
@@ -244,17 +252,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2041554226189678742, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
-      propertyPath: currentWeapon
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f30caf976161b04fb0a1e0632ae4833, type: 2}
     - target: {fileID: 2041554226189678765, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: m_Name
       value: Player (Ship)
       objectReference: {fileID: 0}
+    - target: {fileID: 4894638646753454010, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.323
+      objectReference: {fileID: 0}
     - target: {fileID: 7853938115548023513, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff75104d6e972a54c8561f259f65aa36, type: 3}
