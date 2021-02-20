@@ -58,9 +58,10 @@ namespace Level
         public List<TargetWaypointListProfile> targetWaypointProfiles = new List<TargetWaypointListProfile>();
 
         public bool selectTargetWaypointListProfileRandomly;
-        public int targetTWProfile;
+        public int targetTwProfile;
         public float proximityDistanceOnTargetWaypoint = 0.1f;
-        public GameObject trackerPrefab;
+        public GameObject goalTrackerPrefab;
+        public ParticleSystem waypointIndicator;
 
 
         public bool IsCurrentlyPlaying { private get; set; } = true;
@@ -71,6 +72,7 @@ namespace Level
         private ShipController m_PlayerShip;
         private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
         private List<BaseEnemy> m_RegistedEnemies = new List<BaseEnemy>();
+        private List<ParticleSystem> m_RegisteredEmitters = new List<ParticleSystem>();
         private TargetWaypointListProfile m_SelectedProfile;
         [Space] [SerializeField] private int currentTargetFocus = 0;
         private GameObject m_RegistedTracker;
@@ -83,14 +85,22 @@ namespace Level
                 targetWaypointProfiles[
                     selectTargetWaypointListProfileRandomly
                         ? Random.Range(0, targetWaypointProfiles.Count)
-                        : targetTWProfile];
+                        : targetTwProfile];
 
+            AddIndicatorsToSelectedProfile();
 
             m_PlayerShip = m_PlayerShip
                 ? m_PlayerShip
-                : FindObjectOfType<ShipController>() ?? Instantiate(Resources.Load<GameObject>("Player/Ship"), Vector3.zero, Quaternion.identity).GetComponentInChildren<ShipController>();
+                : FindObjectOfType<ShipController>() ??
+                  Instantiate(Resources.Load<GameObject>("Player/Ship"), Vector3.zero, Quaternion.identity)
+                      .GetComponentInChildren<ShipController>();
+
+
             if (!m_PlayerShip)
                 throw new NullReferenceException($"Couldnt find the player ship");
+
+            m_PlayerShip.gameObject.SetActive(true);
+            m_PlayerShip.transform.position = Vector3.zero;
             m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback += ONGameOver;
             GetPlayerReference = m_PlayerShip;
             if (spawnAsteroids)
@@ -98,6 +108,17 @@ namespace Level
 
             if (spawnEnemies)
                 m_EnemyCoroutine = StartCoroutine(SpawnEnemies());
+        }
+
+        private void AddIndicatorsToSelectedProfile()
+        {
+            for (int i = 0; i < m_SelectedProfile.targetWaypointList.Count; i++)
+            {
+                ParticleSystem indicator = ObjectPooler.GetPooledComponent(waypointIndicator, 50);
+                indicator.transform.position = m_SelectedProfile.targetWaypointList[i];
+                indicator.gameObject.SetActive(true);
+                m_RegisteredEmitters.Add(indicator);
+            }
         }
 
 
@@ -113,7 +134,7 @@ namespace Level
             if (!m_SelectedProfile || !m_PlayerShip) return;
             if (!m_RegistedTracker)
             {
-                m_RegistedTracker = Instantiate(trackerPrefab);
+                m_RegistedTracker = Instantiate(goalTrackerPrefab);
             }
             else if (!m_RegistedTracker.activeSelf)
                 m_RegistedTracker.SetActive(true);
@@ -142,13 +163,16 @@ namespace Level
                 m_PlayerShip.transform.position,
                 m_SelectedProfile.targetWaypointList[currentTargetFocus], proximityDistanceOnTargetWaypoint))
             {
+                m_RegisteredEmitters
+                    .First(e => e.transform.position == m_SelectedProfile.targetWaypointList[currentTargetFocus])
+                    .GetComponent<ParticleSystemRenderer>().material = Resources.Load<Material>("ClearedWaypoint");
+
                 currentTargetFocus++;
                 Debug.Log("Reached Goal! Proceeding to the next goal!");
             }
 
             if (currentTargetFocus >= m_SelectedProfile.targetWaypointList.Count)
             {
-                Debug.Log("Game completed");
                 OnGameComplete();
                 currentTargetFocus = 0;
             }
@@ -156,15 +180,22 @@ namespace Level
 
         private void OnGameComplete()
         {
+            DestroyAllRegistedObjects();
+            StopSpawningElements();
+            Debug.Log("Game completed");
+            m_PlayerShip.gameObject.SetActive(false
+            );
+            ONGameComplete?.Invoke();
+            m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback -= ONGameOver;
+        }
+
+        public void StopSpawningElements()
+        {
             if (m_AsteroidCoroutine != null)
                 StopCoroutine(m_AsteroidCoroutine);
 
             if (m_EnemyCoroutine != null)
                 StopCoroutine(m_EnemyCoroutine);
-
-
-            ONGameComplete?.Invoke();
-            m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback -= ONGameOver;
         }
 
 
@@ -406,6 +437,15 @@ namespace Level
                 m_RegistedAsteroids.Remove(asteroid);
             }
 
+            //Clear emitters
+            for (int i = 0; i < m_RegisteredEmitters.Count; i++)
+            {
+                ParticleSystem system = m_RegisteredEmitters[i];
+                system.GetComponent<ParticleSystemRenderer>().material = Resources.Load<Material>("Waypoint");
+                system.gameObject.SetActive(false);
+                m_RegisteredEmitters.Remove(system);
+            }
+
             //Find and clear the remaining bullets
             List<Bullet> foundBullets = FindObjectsOfType<Bullet>().ToList();
 
@@ -454,6 +494,12 @@ namespace Level
             where TGameObject : MonoBehaviour
         {
             return GetPooledObject(objToFind.gameObject, objectToPoolAmm)?.GetComponent<TGameObject>();
+        }
+
+        public static TComponent GetPooledComponent<TComponent>(TComponent objToFind, int objectToPoolAmm = 500)
+            where TComponent : Component
+        {
+            return GetPooledObject(objToFind.gameObject, objectToPoolAmm)?.GetComponent<TComponent>();
         }
 
         public static GameObject GetPooledObject(GameObject objToFind, int objectToPoolAmm = 500)

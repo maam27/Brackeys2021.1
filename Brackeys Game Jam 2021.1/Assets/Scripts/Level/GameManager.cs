@@ -15,12 +15,14 @@ namespace Level
         private PlayableDirector m_MenuDirector;
         public PlayableAsset normalMenuFadeIn;
         public PlayableAsset gameOverMenuFadeIn;
+        public PlayableAsset gameCompleteMenuFadeIn;
         [Space] public CanvasGroup menuGroup;
 
         private void Awake()
         {
             m_MenuDirector = transform.GetChild(0).GetComponent<PlayableDirector>();
-            LevelManager.PublicAccess.ONGameOver += FullReset;
+            LevelManager.PublicAccess.ONGameOver += () => FullReset(gameOverMenuFadeIn);
+            LevelManager.PublicAccess.ONGameComplete += () => FullReset(gameCompleteMenuFadeIn);
 
 
             m_MenuDirector.Play(normalMenuFadeIn);
@@ -54,11 +56,13 @@ namespace Level
         #endregion
 
 
-        private void FullReset()
+        private void FullReset(PlayableAsset overMenuFadeIn)
         {
             //Clear the level
             LevelManager.PublicAccess.DestroyAllRegistedObjects();
+            LevelManager.PublicAccess.StopSpawningElements();
 
+            Debug.Log("Resetting the game!");
 
             if (menuGroup)
             {
@@ -68,8 +72,8 @@ namespace Level
             }
 
             //Open the main menu UI element
-            if (m_MenuDirector)
-                m_MenuDirector.Play(gameOverMenuFadeIn);
+            if (overMenuFadeIn)
+                m_MenuDirector.Play(overMenuFadeIn);
         }
     }
 }

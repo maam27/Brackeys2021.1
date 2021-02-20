@@ -21,7 +21,8 @@ namespace UI
 
         private void Update()
         {
-            m_HealthBar.value = targetHealthToDisplay.CurrentHealth / targetHealthToDisplay.maxHealth;
+            if (targetHealthToDisplay)
+                m_HealthBar.value = targetHealthToDisplay.CurrentHealth / targetHealthToDisplay.maxHealth;
         }
     }
 }
