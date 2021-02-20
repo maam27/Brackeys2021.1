@@ -2,30 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="972fdf27-ebd9-49d9-9713-906b7e7caa65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/EnemySpawnProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/EnemySpawnProfile.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/TargetWaypointListProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/TargetWaypointListProfile.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/Tracker/Default Tracker.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/Tracker/Default Tracker.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Cutscenes/Default Menu Open.playable" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Cutscenes/Default Menu Open.playable" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Default.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Default.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Primary Weapon.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Primary Weapon.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Arrow.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Arrow.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/Editor Scripts/LevelManagerEditorScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/Editor Scripts/LevelManagerEditorScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/BaseEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/BaseEnemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/Fighter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/Fighter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,10 +53,15 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/Fighter.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/ShipController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/Game Manager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Misc/Sun Rotiation.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Misc/ParticleEmitorController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Misc/ParticleEmitterController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/DamageableComponent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/Healthbar.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oTN8dPuBdUA7gkH3biFN6c0oap" />
@@ -126,7 +113,8 @@
       <workItem from="1613471834099" duration="10485000" />
       <workItem from="1613649095180" duration="12866000" />
       <workItem from="1613694852977" duration="3523000" />
-      <workItem from="1613738642642" duration="13781000" />
+      <workItem from="1613738642642" duration="14387000" />
+      <workItem from="1613811087556" duration="8606000" />
     </task>
     <servers />
   </component>
