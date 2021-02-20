@@ -5030,8 +5030,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135078908}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalRotation: {x: 0.70090926, y: 0, z: 0, w: 0.7132505}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 96644588}
@@ -5925,10 +5925,6 @@ MonoBehaviour:
   selectEnemySpawnProfileRandomly: 1
   targetESProfile: 0
   spawnEnemies: 1
-  spawnAsteroids: 1
-  manuallyControlAsteroidSpawnRate: 0
-  spawnRate: 0.5
-  asteroidSpawnAmount: 0
   targetWaypointProfiles:
   - {fileID: 11400000, guid: 99ed3208570a1284187ce693af83d841, type: 2}
   - {fileID: 11400000, guid: 466ed7cd1f70db749afbb5aa13a686c7, type: 2}
@@ -5938,6 +5934,15 @@ MonoBehaviour:
   proximityDistanceOnTargetWaypoint: 5
   goalTrackerPrefab: {fileID: 8516017862926820602, guid: b21c288b0ee7def4aab7a74c56eb354c, type: 3}
   waypointIndicator: {fileID: 3981230811937371234, guid: a71ae4bbea2761e44a302947b1cd8e26, type: 3}
+  convictAlliesPresets:
+  - {fileID: 0}
+  convictAlliesAmm: 50
+  minDistanceBetweenConvictAllies: 50
+  contactRange: 25
+  spawnAsteroids: 1
+  manuallyControlAsteroidSpawnRate: 0
+  spawnRate: 0.5
+  asteroidSpawnAmount: 0
   currentTargetFocus: 0
 --- !u!4 &1190041596
 Transform:
@@ -6996,6 +7001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 11400000, guid: 2f30caf976161b04fb0a1e0632ae4833, type: 2}
+  currentModifiers: {fileID: 0}
   weaponBarrel: {fileID: 576507725149624117}
 --- !u!4 &1999599921001902634
 Transform:

@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2f6a3adb8a94854996bff54d96d7511, type: 3}
-  m_Name: Primary Weapon
+  m_Script: {fileID: 11500000, guid: 3c41f7dffcfe41c9bd48cd24d01aa7d7, type: 3}
+  m_Name: Fire Rate Boost
   m_EditorClassIdentifier: 
-  fireRate: 0.45
-  fireBehaivourCallback: {fileID: 11400000, guid: e2422f88df0cab640ad926c5249027f4, type: 2}
+  bonusDamage: 0
+  bonusFireRate: 0.25
+  bonusVelocity: 0

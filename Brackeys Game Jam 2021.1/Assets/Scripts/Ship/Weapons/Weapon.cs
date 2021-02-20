@@ -1,3 +1,5 @@
+using Level;
+using Scriptable_Asset_Definitions;
 using UnityEngine;
 using Utility.Attributes;
 
@@ -11,13 +13,16 @@ namespace Ship.Weapons
 
         [Expose] public BaseFireBehaviour fireBehaivourCallback;
 
-        public void Fire(bool fireButton, Transform barrel = null, Transform owner = null)
+        public void Fire(bool fireButton, Transform barrel = null, Transform owner = null,
+            WeaponModifier currentModifiers = default)
         {
             m_CurrentTime += Time.deltaTime;
-            if (fireButton && m_CurrentTime >= fireRate)
+            float trueFireRate = currentModifiers ?  fireRate - currentModifiers.bonusFireRate : fireRate;
+            Mathf.Clamp(trueFireRate, 0.05f, float.MaxValue);
+            if (fireButton && m_CurrentTime >= trueFireRate)
             {
                 if (fireBehaivourCallback)
-                    fireBehaivourCallback.OnFireBehaviour(barrel, owner);
+                    fireBehaivourCallback.OnFireBehaviour(barrel, owner, currentModifiers);
                 m_CurrentTime = 0;
             }
         }

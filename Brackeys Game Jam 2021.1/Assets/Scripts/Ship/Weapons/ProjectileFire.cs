@@ -1,4 +1,5 @@
 using Level;
+using Scriptable_Asset_Definitions;
 using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
 
@@ -13,12 +14,14 @@ namespace Ship.Weapons
         public GameObject bulletPrefab;
         public float bulletLifetime;
 
-        public override void OnFireBehaviour(Transform barrel, Transform owner)
+        public override void OnFireBehaviour(Transform barrel, Transform owner,
+            WeaponModifier currentModifiers)
         {
             Bullet spawnedBullet = ObjectPooler.GetPooledObject(bulletPrefab).GetComponent<Bullet>();
             spawnedBullet.lifetime = bulletLifetime;
-            spawnedBullet.velocity = bulletVelocity;
-            spawnedBullet.damage = bulletDamage;
+            spawnedBullet.velocity =
+                currentModifiers ? bulletVelocity + currentModifiers.bonusVelocity : bulletVelocity;
+            spawnedBullet.damage =   currentModifiers ? bulletDamage + currentModifiers.bonusDamage : bulletDamage;
             spawnedBullet.ownerID = owner.GetInstanceID();
             var transform = spawnedBullet.transform;
             if (barrel)
@@ -31,6 +34,7 @@ namespace Ship.Weapons
                 transform.rotation = Quaternion.identity;
                 transform.position = Vector3.zero;
             }
+
             spawnedBullet.gameObject.SetActive(true);
         }
     }

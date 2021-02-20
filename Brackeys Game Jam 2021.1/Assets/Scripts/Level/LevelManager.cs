@@ -7,7 +7,6 @@ using Level.Enemies;
 using Ship;
 using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utility.Attributes;
 using Random = UnityEngine.Random;
 
@@ -49,11 +48,6 @@ namespace Level
         public int targetESProfile;
         public bool spawnEnemies;
 
-        [Header("Debug Stuff - Asteroids")] public bool spawnAsteroids = true;
-        public bool manuallyControlAsteroidSpawnRate;
-        public float spawnRate;
-        public int asteroidSpawnAmount;
-
         [Header("Game Goals")] [Expose]
         public List<TargetWaypointListProfile> targetWaypointProfiles = new List<TargetWaypointListProfile>();
 
@@ -63,6 +57,16 @@ namespace Level
         public GameObject goalTrackerPrefab;
         public ParticleSystem waypointIndicator;
 
+        [Header("Convict Allies Information")] public List<ConvictAlly> convictAlliesPresets = new List<ConvictAlly>();
+        public int convictAlliesAmm = 50;
+        public float minDistanceBetweenConvictAllies = 50f;
+        public float contactRange = 25f;
+
+        [Header("Debug Stuff - Asteroids")] public bool spawnAsteroids = true;
+        public bool manuallyControlAsteroidSpawnRate;
+        public float spawnRate;
+        public int asteroidSpawnAmount;
+
 
         public bool IsCurrentlyPlaying { private get; set; } = true;
         public ShipController GetPlayerReference { get; private set; }
@@ -70,9 +74,12 @@ namespace Level
 
 
         private ShipController m_PlayerShip;
+
         private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
         private List<BaseEnemy> m_RegistedEnemies = new List<BaseEnemy>();
         private List<ParticleSystem> m_RegisteredEmitters = new List<ParticleSystem>();
+        private List<ConvictAlly> m_RegisteredConvictAllies = new List<ConvictAlly>();
+
         private TargetWaypointListProfile m_SelectedProfile;
         [Space] [SerializeField] private int currentTargetFocus = 0;
         private GameObject m_RegistedTracker;
@@ -95,12 +102,15 @@ namespace Level
                   Instantiate(Resources.Load<GameObject>("Player/Ship"), Vector3.zero, Quaternion.identity)
                       .GetComponentInChildren<ShipController>();
 
+            //GeneratePointsOfInterests();
+
 
             if (!m_PlayerShip)
-                throw new NullReferenceException($"Couldnt find the player ship");
+                throw new NullReferenceException("Couldn't find the player ship");
 
             m_PlayerShip.gameObject.SetActive(true);
             m_PlayerShip.transform.position = Vector3.zero;
+            m_PlayerShip.GetComponent<WeaponSystems>().ResetToDefault();
             m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback += ONGameOver;
             GetPlayerReference = m_PlayerShip;
             if (spawnAsteroids)
@@ -108,6 +118,17 @@ namespace Level
 
             if (spawnEnemies)
                 m_EnemyCoroutine = StartCoroutine(SpawnEnemies());
+        }
+
+        private void GeneratePointsOfInterests()
+        {
+            for (int i = 0; i < convictAlliesAmm; i++)
+            {
+                ConvictAlly ally = ObjectPooler.GetPooledObject(convictAlliesPresets.GetRandomElement(), 50);
+                ally.transform.position = ally.GetRandomPositionWithinLevel(minDistanceBetweenConvictAllies);
+                ally.gameObject.SetActive(true);
+                m_RegisteredConvictAllies.Add(ally);
+            }
         }
 
         private void AddIndicatorsToSelectedProfile()
@@ -178,13 +199,21 @@ namespace Level
             }
         }
 
+        private void DetectIfPlayerHasReachedAPointOfInterest()
+        {
+            if (!m_PlayerShip) return;
+            ConvictAlly closestAlly = m_RegisteredConvictAllies.FirstOrDefault(c =>
+                Vector3.Distance(c.transform.position, m_PlayerShip.transform.position) <= contactRange);
+            if (!closestAlly) return;
+            closestAlly.HelpPlayer(m_PlayerShip);
+        }
+
         private void OnGameComplete()
         {
             DestroyAllRegistedObjects();
             StopSpawningElements();
             Debug.Log("Game completed");
-            m_PlayerShip.gameObject.SetActive(false
-            );
+            m_PlayerShip.gameObject.SetActive(false);
             ONGameComplete?.Invoke();
             m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback -= ONGameOver;
         }
@@ -261,6 +290,7 @@ namespace Level
 
 
         private BoxCollider m_ChildCollider;
+
 
         private void OnValidate()
         {
@@ -357,10 +387,10 @@ namespace Level
         {
             while (true)
             {
-                List<Asteroid> foundAsteroinds = m_RegistedAsteroids.FindAll(a =>
+                List<Asteroid> foundAsteroids = m_RegistedAsteroids.FindAll(a =>
                     Vector3.Distance(a.transform.position, m_PlayerShip.transform.position) > spawnRange);
 
-                foreach (var asteroid in foundAsteroinds)
+                foreach (var asteroid in foundAsteroids)
                 {
                     asteroid.gameObject.SetActive(false);
                     m_RegistedAsteroids.Remove(asteroid);
@@ -446,6 +476,13 @@ namespace Level
                 m_RegisteredEmitters.Remove(system);
             }
 
+            for (int i = 0; i < m_RegisteredConvictAllies.Count; i++)
+            {
+                ConvictAlly ally = m_RegisteredConvictAllies[i];
+                ally.gameObject.SetActive(false);
+                m_RegisteredConvictAllies.Remove(ally);
+            }
+
             //Find and clear the remaining bullets
             List<Bullet> foundBullets = FindObjectsOfType<Bullet>().ToList();
 
@@ -493,6 +530,7 @@ namespace Level
         public static TGameObject GetPooledObject<TGameObject>(TGameObject objToFind, int objectToPoolAmm = 500)
             where TGameObject : MonoBehaviour
         {
+            if (!objToFind) return default;
             return GetPooledObject(objToFind.gameObject, objectToPoolAmm)?.GetComponent<TGameObject>();
         }
 
@@ -522,7 +560,13 @@ namespace Level
     {
         public static T GetRandomElement<T>(this List<T> list)
         {
-            return list[Random.Range(0, list.Count - 1)];
+            if (list.Count == 0) return default;
+            return list[Random.Range(0, list.Count)];
+        }
+
+        public static Vector3 ToXZ(this Vector2 value)
+        {
+            return new Vector3(value.x, 0, value.y);
         }
     }
 }

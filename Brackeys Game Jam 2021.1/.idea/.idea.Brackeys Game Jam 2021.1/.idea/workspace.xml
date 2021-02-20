@@ -2,12 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="972fdf27-ebd9-49d9-9713-906b7e7caa65" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Level/ConvictAlly.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/WeaponModifier.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Brackeys Game Jam 2021.1/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Cutscenes/Default Menu Open.playable" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Cutscenes/Default Menu Open.playable" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Player/Ship.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Player/Ship.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ship Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile A.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile A.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile B.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile B.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile C.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Level/Goals/Goal_Profile C.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Primary Weapon.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Primary Weapon.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Rocket Launcher.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Rocket Launcher.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Test.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Test.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Arrow.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Arrow.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Homing Rocket.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/Homing Rocket.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/New Projectile Fire Behaviour.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Ship/Weapons/Weapon Fire Types/New Projectile Fire Behaviour.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/AsteroidSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/AsteroidSettings.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/EnemySpawnProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/EnemySpawnProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/EnemySpawnProfile.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/EnemySpawnProfile.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/TargetWaypointListProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/TargetWaypointListProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/TargetWaypointListProfile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,10 +74,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon Fire/Bullet.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/TargetWaypointListProfile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Editor/Editor Scripts/LevelManagerEditorScript.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/Enemies/BaseEnemy.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/EnemySpawnProfile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/AsteroidSettings.cs" />
@@ -61,7 +87,15 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/Healthbar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/HealthBar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/GameManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Level/ConvictAllies.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/Weapon Modifier.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Level/ConvictAlly.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/BaseFireBehaviour.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Scriptable Asset Definitions/WeaponModifier.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/WeaponSystems.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Level/LevelManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/Weapon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Ship/Weapons/ProjectileFire.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oTN8dPuBdUA7gkH3biFN6c0oap" />
@@ -114,7 +148,7 @@
       <workItem from="1613649095180" duration="12866000" />
       <workItem from="1613694852977" duration="3523000" />
       <workItem from="1613738642642" duration="14387000" />
-      <workItem from="1613811087556" duration="8606000" />
+      <workItem from="1613811087556" duration="14763000" />
     </task>
     <servers />
   </component>
