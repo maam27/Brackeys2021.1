@@ -25,7 +25,7 @@ namespace Ship
         // Update is called once per frame
         void Update()
         {
-            currentWeapon.Fire(m_InputHandler.GetFireButton, weaponBarrel);
+            currentWeapon.Fire(m_InputHandler.GetFireButton, weaponBarrel, transform);
         }
     }
 }

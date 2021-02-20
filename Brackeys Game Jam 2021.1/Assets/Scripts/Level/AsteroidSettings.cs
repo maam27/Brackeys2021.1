@@ -29,6 +29,7 @@ namespace Level
     [Serializable]
     public struct AsteroidField
     {
+        public float initialSpawnDelayOnSpawningAsteroidField;
         public float spawnRate;
         public int spawnAmount;
         public float delayToSpawnNextAsteroidField;

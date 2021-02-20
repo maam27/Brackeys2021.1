@@ -1,48 +1,80 @@
+using System;
+using Ship.Weapons;
 using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Level.Enemies
 {
     public class Fighter : BaseEnemy
     {
         public float attackRange;
-        public float attackRate;
-        public float attackDamage;
-        [Space] public Bullet bulletPrefab;
+        [Space] [Expose] public Weapon currentWeapon;
+        public Transform weaponBarrel;
 
-        private float p_Timer;
-        protected override void EnemyBehaivour()
+        bool m_IsWithinRange = true;
+
+        protected void Update()
         {
-            bool isWithinRange = DistanceBetweenPlayerAndThis <= attackRange;
-            OnFalseConditionMoveTowardsPlayer(isWithinRange);
+            Transform transform1;
+            (transform1 = transform).rotation = Quaternion.LookRotation(DirectionToPlayer, Vector3.up);
+            m_IsWithinRange = DistanceBetweenPlayerAndThis <= attackRange;
 
-            if (isWithinRange)
+            if (m_IsWithinRange)
             {
-                transform.rotation = Quaternion.LookRotation(DirectionToPlayer, Vector3.up);
-                AttackPlayer();
+                if (currentWeapon)
+                    currentWeapon.Fire(true, weaponBarrel, transform1);
             }
-            
+
+            transform1.position = new Vector3(transform1.position.x, 0, transform1.position.z);
         }
 
-        private void AttackPlayer()
+        private void FixedUpdate()
         {
-            p_Timer += Time.deltaTime;
-
-            if (p_Timer >= attackRate)
-            {
-                Bullet bullet = ObjectPooler.GetPooledObject(bulletPrefab);
-                bullet.damage = attackDamage;
-                bullet.lifetime = 3f;
-                bullet.velocity = 50f;
-                bullet.ownerID = GetInstanceID();
-                bullet.transform.position = transform.position + transform.forward.normalized * 2f;
-                bullet.transform.rotation = transform.rotation;
-                
-                bullet.gameObject.SetActive(true);
-
-
-                p_Timer = 0;
-            }
+            OnFalseConditionMoveTowardsPlayer(m_IsWithinRange);
         }
+
+
+        #region Reddit
+
+        // public Vector2 Velocity = new Vector2(1, 0);
+        //
+        // [Range(0, 5)] 
+        // public float RotateSpeed = 1f;
+        // [Range(0, 5)]
+        // public float RotateRadiusX = 1f;
+        // [Range(0, 5)]
+        // public float RotateRadiusY = 1f;
+        //
+        // public bool Clockwise = true;
+        //
+        // private Vector2 _centre;
+        // private float _angle;
+        //
+        // private void Start()
+        // {
+        //     _centre = transform.position;
+        // }
+        //
+        // private void Update()
+        // {
+        //     _centre += Velocity * Time.deltaTime;
+        //
+        //     _angle += (Clockwise ? RotateSpeed : -RotateSpeed) * Time.deltaTime;
+        //
+        //      The below apparently makes things rotate around the point.
+        //     var x = Mathf.Sin(_angle) * RotateRadiusX;
+        //     var y = Mathf.Cos(_angle) * RotateRadiusY;
+        //
+        //     transform.position = _centre + new Vector2(x, y);
+        // }
+        //
+        // void OnDrawGizmos()
+        // {
+        //     Gizmos.DrawSphere(_centre, 0.1f);
+        //     Gizmos.DrawLine(_centre, transform.position);
+        // }
+
+        #endregion
     }
 }

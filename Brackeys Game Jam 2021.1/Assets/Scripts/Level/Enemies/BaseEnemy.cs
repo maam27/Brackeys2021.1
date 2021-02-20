@@ -1,47 +1,52 @@
 using System;
 using Interactivity;
 using Ship;
+using Ship.Weapons;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Level.Enemies
 {
-    [RequireComponent(typeof(NavMeshAgent), typeof(DamageableComponent))]
+    [RequireComponent(typeof(DamageableComponent), typeof(Weapon))]
     public abstract class BaseEnemy : MonoBehaviour
     {
         protected ShipController PlayerShip;
         protected NavMeshAgent Agent;
-        protected Vector3 DirectionToPlayer => (PlayerShip.transform.position - transform.position).normalized;
-        protected float DistanceBetweenPlayerAndThis => (PlayerShip.transform.position - transform.position).magnitude;
-        public bool useNavMesh = true;
+        protected Rigidbody Physics;
+        protected Weapon CurrentWeapon;
 
-        protected virtual void Awake()
+        protected Vector3 DirectionToPlayer =>
+            PlayerShip ? (PlayerShip.transform.position - transform.position).normalized : Vector3.zero;
+
+        protected float DistanceBetweenPlayerAndThis =>
+            PlayerShip ? (PlayerShip.transform.position - transform.position).magnitude : 0;
+
+        public bool useNavMesh = true;
+        public float speed = 5f;
+
+        protected void Start()
         {
             PlayerShip = LevelManager.PublicAccess.GetPlayerReference;
+            Physics = GetComponent<Rigidbody>();
             Agent = GetComponent<NavMeshAgent>();
         }
 
-        protected virtual void Update()
-        {
-            EnemyBehaivour();
-        }
-        
-        
-        
-        
-        protected abstract void EnemyBehaivour();
 
-        protected void OnFalseConditionMoveTowardsPlayer(bool condition)
+        protected void OnFalseConditionMoveTowardsPlayer(bool condition, Action onTrueConditionCallback = null)
         {
-            if (useNavMesh)
-            {
-                if (!condition)
+            if (!condition)
+                if (useNavMesh && Agent)
+                {
                     Agent.SetDestination(PlayerShip.transform.position);
-            }
+                }
+                else if (Physics)
+                {
+                    Physics.velocity = DirectionToPlayer * (speed * 100f * Time.fixedDeltaTime);
+                }
             else
-            {
-                throw new NotImplementedException();
-            }
+                {
+                    onTrueConditionCallback?.Invoke();
+                }
         }
     }
 }

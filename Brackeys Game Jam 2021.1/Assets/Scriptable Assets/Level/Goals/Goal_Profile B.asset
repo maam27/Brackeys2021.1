@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f115bee5457d4501a0f9fd43f034047c, type: 3}
+  m_Name: Goal_Profile B
+  m_EditorClassIdentifier: 
+  targetWaypointList:
+  - {x: 525.1013, y: 0, z: 93.9621}
+  - {x: 817.6283, y: 0, z: -174.7553}
+  - {x: 67.81842, y: 0, z: -336.4796}
+  - {x: 411.5813, y: 0, z: 6.69342}
+  - {x: 864.782, y: 0, z: -18.00637}
+  pointColor: {r: 0.050938904, g: 0.5054005, b: 0.14714926, a: 1}
+  lineColor: {r: 0.27025712, g: 0.06367443, b: 0.40289694, a: 1}
+  detectionColor: {r: 0.035761822, g: 0.049452074, b: 0.0444068, a: 1}

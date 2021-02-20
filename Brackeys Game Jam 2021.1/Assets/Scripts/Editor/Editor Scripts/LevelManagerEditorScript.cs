@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Level;
 using UnityEditor;
@@ -38,17 +39,28 @@ namespace Editor.Editor_Scripts
             Handles.Label(worldPos + Vector3.right * -1.15f, $"{worldPos}");
             HandleUtility.Repaint();
 
-
-            for (int i = 0; i < m_LevelManager.targetWaypointsToTraverseTo.Count; i++)
+            int registedPIndex = 0;
+            Vector3 closestPoint = Vector3.zero;
+            for (int p = 0; p < m_LevelManager.targetWaypointProfiles.Count; p++)
             {
-                if (LevelManager.PublicAccess.IsObjectInVicinityOfAnotherObject(worldPos,
-                    m_LevelManager.targetWaypointsToTraverseTo[i], 0.1f))
+                List<Vector3> targetWaypointList = m_LevelManager.targetWaypointProfiles[p].targetWaypointList;
+                for (int w = 0; w < targetWaypointList.Count; w++)
                 {
-                    Vector3 pos =
-                        Handles.PositionHandle(m_LevelManager.targetWaypointsToTraverseTo[i], Quaternion.identity) +
-                        m_LevelManager.transform.position;
+                    if (LevelManager.PublicAccess.IsObjectInVicinityOfAnotherObject(worldPos,
+                        targetWaypointList[w], 50))
+                    {
+                        Vector3 levelOffset;
+                        Vector3 pos =
+                            Handles.PositionHandle(targetWaypointList[w], Quaternion.identity) +
+                            m_LevelManager.transform.position + (levelOffset = new Vector3(m_LevelManager.levelOffset.x,
+                                0, m_LevelManager.levelOffset.y));
 
-                    m_LevelManager.targetWaypointsToTraverseTo[i] = pos - m_LevelManager.transform.position;
+                        targetWaypointList[w] =
+                            pos - m_LevelManager.transform.position - levelOffset;
+
+                        m_LevelManager.targetWaypointProfiles[p].targetWaypointList = targetWaypointList;
+                        break;
+                    }
                 }
             }
         }

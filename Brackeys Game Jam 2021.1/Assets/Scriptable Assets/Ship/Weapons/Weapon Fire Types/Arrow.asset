@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628ec84b656547c99a435cf478a8d2db, type: 3}
   m_Name: Arrow
   m_EditorClassIdentifier: 
-  bulletDamage: 10
-  bulletVelocity: 150
-  bulletPrefab: {fileID: 0}
+  bulletDamage: 2.5
+  bulletVelocity: 50
+  bulletPrefab: {fileID: 6931155318272766755, guid: f69871acf55787f4f84f62ea6b88f867, type: 3}
   bulletLifetime: 3

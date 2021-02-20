@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Interactivity;
+using Level.Enemies;
 using Ship;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -35,30 +37,61 @@ namespace Level
 
         [Header("Asteroid Information")] public List<Asteroid> asteroidPrefabs;
         [Expose] public AsteroidSettings asteroidSettings;
-        [Space] public Vector2 levelSize;
+        [Header("Level Information")] public Vector2 levelSize;
+        public Vector2 levelOffset;
+        public Vector3 spawnPositionOffset;
+
+        [Header("Enemy Spawn Information")] [Expose]
+        public List<EnemySpawnProfile> enemySpawnProfiles = new List<EnemySpawnProfile>();
+
+        public bool selectEnemySpawnProfileRandomly;
+        public int targetESProfile;
+        public bool spawnEnemies;
+
         [Header("Debug Stuff - Asteroids")] public bool spawnAsteroids = true;
         public bool manuallyControlAsteroidSpawnRate;
         public float spawnRate;
         public int asteroidSpawnAmount;
-        [Header("Game Goals")] public List<Vector3> targetWaypointsToTraverseTo = new List<Vector3>();
+
+        [Header("Game Goals")] [Expose]
+        public List<TargetWaypointListProfile> targetWaypointProfiles = new List<TargetWaypointListProfile>();
+
+        public bool selectTargetWaypointListProfileRandomly;
+        public int targetTWProfile;
         public float proximityDistanceOnTargetWaypoint = 0.1f;
         public GameObject trackerPrefab;
 
 
         public bool IsCurrentlyPlaying { private get; set; } = true;
         public ShipController GetPlayerReference { get; private set; }
+        public event Action ONGameOver, ONGameComplete;
+
 
         private ShipController m_PlayerShip;
         private List<Asteroid> m_RegistedAsteroids = new List<Asteroid>();
-        [Space] [SerializeField] private int m_CurrentTargetFocus = 0;
+        private TargetWaypointListProfile m_SelectedProfile;
+        [Space] [SerializeField] private int currentTargetFocus = 0;
         private GameObject m_RegistedTracker;
+        private Coroutine m_AsteroidCoroutine, m_EnemyCoroutine;
+        
 
-        private void Awake()
+        public void StartGame()
         {
-            m_PlayerShip = FindObjectOfType<ShipController>();
+            m_SelectedProfile =
+                targetWaypointProfiles[
+                    selectTargetWaypointListProfileRandomly
+                        ? Random.Range(0, targetWaypointProfiles.Count)
+                        : targetTWProfile];
+
+
+            m_PlayerShip = m_PlayerShip ? m_PlayerShip : FindObjectOfType<ShipController>();
+            m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback += ONGameOver;
             GetPlayerReference = m_PlayerShip;
             if (spawnAsteroids)
-                StartCoroutine(SpawnAsteroids());
+                m_AsteroidCoroutine = StartCoroutine(SpawnAsteroids());
+
+            if (spawnEnemies)
+                m_EnemyCoroutine = StartCoroutine(SpawnEnemies());
         }
 
 
@@ -78,10 +111,10 @@ namespace Level
             else if (!m_RegistedTracker.activeSelf)
                 m_RegistedTracker.SetActive(true);
 
-            if (m_CurrentTargetFocus < targetWaypointsToTraverseTo.Count)
+            if (currentTargetFocus < m_SelectedProfile.targetWaypointList.Count)
             {
                 var position = m_PlayerShip.transform.position;
-                Vector3 dir = targetWaypointsToTraverseTo[m_CurrentTargetFocus] - position;
+                Vector3 dir = m_SelectedProfile.targetWaypointList[currentTargetFocus] - position;
                 m_RegistedTracker.transform.localRotation = Quaternion.LookRotation(
                     dir,
                     Vector3.up);
@@ -98,24 +131,33 @@ namespace Level
         private void DetectIfPlayerHasReachedCurrentTarget()
         {
             if (!m_PlayerShip) return;
-            if (m_CurrentTargetFocus < targetWaypointsToTraverseTo.Count && IsObjectInVicinityOfAnotherObject(
+            if (currentTargetFocus < m_SelectedProfile.targetWaypointList.Count && IsObjectInVicinityOfAnotherObject(
                 m_PlayerShip.transform.position,
-                targetWaypointsToTraverseTo[m_CurrentTargetFocus], proximityDistanceOnTargetWaypoint))
+                m_SelectedProfile.targetWaypointList[currentTargetFocus], proximityDistanceOnTargetWaypoint))
             {
-                m_CurrentTargetFocus++;
+                currentTargetFocus++;
                 Debug.Log("Reached Goal! Proceeding to the next goal!");
             }
 
-            if (m_CurrentTargetFocus >= targetWaypointsToTraverseTo.Count)
+            if (currentTargetFocus >= m_SelectedProfile.targetWaypointList.Count)
             {
                 Debug.Log("Game completed");
                 OnGameComplete();
-                m_CurrentTargetFocus = 0;
+                currentTargetFocus = 0;
             }
         }
 
         private void OnGameComplete()
         {
+            if (m_AsteroidCoroutine != null)
+                StopCoroutine(m_AsteroidCoroutine);
+
+            if (m_EnemyCoroutine != null)
+                StopCoroutine(m_EnemyCoroutine);
+            
+            
+            ONGameComplete?.Invoke();
+            m_PlayerShip.GetComponent<DamageableComponent>().ONDeathCallback -= ONGameOver;
         }
 
 
@@ -123,7 +165,7 @@ namespace Level
         {
             Gizmos.color = Color.blue - new Color(0, 0, 0, 0.75f);
 
-            Gizmos.DrawCube(Vector3.zero, new Vector3(levelSize.x, 1, levelSize.y));
+            Gizmos.DrawCube(new Vector3(levelOffset.x, 0, levelOffset.y), new Vector3(levelSize.x, 1, levelSize.y));
 
 
             if (asteroidSettings)
@@ -133,31 +175,49 @@ namespace Level
                     asteroidSettings.spawnRadiusNearPlayer);
             }
 
-
-            if (targetWaypointsToTraverseTo.Count != 0)
+            Color pointColor = Color.yellow;
+            Color lineColor = Color.cyan;
+            Color detectionColor = Color.green;
+            for (int p = 0; p < targetWaypointProfiles.Count; p++)
             {
-                Vector3 waypointA, waypointB = Vector3.zero;
-                for (var i = 0; i < targetWaypointsToTraverseTo.Count; i++)
+                List<Vector3> targetWaypointList = targetWaypointProfiles[p].targetWaypointList;
+                if (targetWaypointList.Count != 0)
                 {
-                    waypointA = targetWaypointsToTraverseTo[i];
-                    var isWithinList = i + 1 < targetWaypointsToTraverseTo.Count;
-                    if (isWithinList)
-                        waypointB = targetWaypointsToTraverseTo[i + 1];
+                    Vector3 waypointA, waypointB = Vector3.zero;
+                    for (var i = 0; i < targetWaypointList.Count; i++)
+                    {
+                        waypointA = targetWaypointList[i];
+                        var isWithinList = i + 1 < targetWaypointList.Count;
+                        if (isWithinList)
+                            waypointB = targetWaypointList[i + 1];
 
 
-                    Gizmos.color = Color.yellow;
-                    if (i == 0 || i == targetWaypointsToTraverseTo.Count - 1)
-                        Gizmos.DrawSphere(waypointA, 1f);
-                    else
-                        Gizmos.DrawCube(waypointA, Vector3.one / 2f);
-                    Gizmos.DrawCube(waypointB, Vector3.one / 2f);
-                    Gizmos.color = Color.cyan;
-                    if (waypointB != Vector3.zero)
-                        Gizmos.DrawLine(waypointA, waypointB);
+                        Gizmos.color = pointColor;
+                        if (i == 0 || i == targetWaypointList.Count - 1)
+                            Gizmos.DrawSphere(waypointA, 1f);
+                        else
+                            Gizmos.DrawCube(waypointA, Vector3.one / 2f);
+                        Gizmos.DrawCube(waypointB, Vector3.one / 2f);
+                        Gizmos.color = lineColor;
+                        if (waypointB != Vector3.zero)
+                            Gizmos.DrawLine(waypointA, waypointB);
 
-                    Gizmos.color = Color.green - new Color(0, 0, 0, 0.5f);
-                    Gizmos.DrawSphere(waypointA, proximityDistanceOnTargetWaypoint);
+                        Gizmos.color = detectionColor - new Color(0, 0, 0, 0.5f);
+                        Gizmos.DrawSphere(waypointA, proximityDistanceOnTargetWaypoint);
+                    }
                 }
+
+                //Debug.Log($"{p} is {(p + 1 >= targetWaypointProfiles.Count ? $"higher than" : "lower than")} {targetWaypointProfiles.Count}!");
+                int nextPIndex = p + 1 >= targetWaypointProfiles.Count ? 0 : p + 1;
+                pointColor = (targetWaypointProfiles[nextPIndex].pointColor == pointColor
+                    ? targetWaypointProfiles[nextPIndex].pointColor = Random.ColorHSV(0, 1, 0, 1, 0, 1, 1, 1)
+                    : targetWaypointProfiles[nextPIndex].pointColor);
+                lineColor = (targetWaypointProfiles[nextPIndex].lineColor == lineColor
+                    ? targetWaypointProfiles[nextPIndex].lineColor = Random.ColorHSV(0, 1, 0, 1, 0, 1, 1, 1)
+                    : targetWaypointProfiles[nextPIndex].lineColor);
+                detectionColor = (targetWaypointProfiles[nextPIndex].detectionColor == detectionColor
+                    ? targetWaypointProfiles[nextPIndex].detectionColor = Random.ColorHSV(0, 1, 0, 1, 0, 1, 1, 1)
+                    : targetWaypointProfiles[nextPIndex].detectionColor);
             }
         }
 
@@ -188,6 +248,7 @@ namespace Level
             while (true)
             {
                 AsteroidField asteroidField = asteroidSettings.GetARandomAsteroidFieldConfiguration();
+                yield return new WaitForSeconds(asteroidField.initialSpawnDelayOnSpawningAsteroidField);
                 currentAsteroidAmm = manuallyControlAsteroidSpawnRate ? asteroidSpawnAmount : asteroidField.spawnAmount;
                 for (int i = 0; i < currentAsteroidAmm; i++)
                 {
@@ -223,6 +284,37 @@ namespace Level
             }
         }
 
+        private IEnumerator SpawnEnemies()
+        {
+            while (true)
+            {
+                EnemySpawnProfile profile = selectEnemySpawnProfileRandomly
+                    ? enemySpawnProfiles.GetRandomElement()
+                    : enemySpawnProfiles[targetESProfile];
+                yield return new WaitForSeconds(profile.initialDelayUntilEnemySpawn);
+                for (int i = 0; i < profile.enemySpawnAmm; i++)
+                {
+                    if (!profile.spawnEnemies) break;
+                    BaseEnemy enemy = ObjectPooler.GetPooledObject(profile.enemiesToSpawn.GetRandomElement());
+                    Vector3 randomPos;
+                    enemy.transform.position =
+                        new Vector3((randomPos = Random.onUnitSphere).x, 0, randomPos.z) * profile.enemySpawnRange +
+                        m_PlayerShip.transform.position;
+
+                    enemy.gameObject.SetActive(true);
+
+                    yield return new WaitForSeconds(profile.enemySpawnRate);
+                }
+
+                yield return new WaitForSeconds(profile.delayToNextEnemySpawnProfile);
+
+                if (!IsCurrentlyPlaying) break;
+            }
+
+            yield return null;
+        }
+
+
         private IEnumerator RemoveExcessAsteroids(float spawnRange)
         {
             while (true)
@@ -248,17 +340,21 @@ namespace Level
 
         private void KIllPlayerOnExceedingPosLeveLSize()
         {
-            if (IsFloatNotWithinLimits(m_PlayerShip.transform.position.x, levelSize.x) &&
-                IsFloatNotWithinLimits(m_PlayerShip.transform.position.z, levelSize.y))
+            if (!IsPositionWithinZone(m_PlayerShip.transform.position))
             {
                 m_PlayerShip.KIllPlayer();
             }
         }
 
 
-        public bool IsFloatNotWithinLimits(float currentFloat, float limit)
+        public bool IsPositionWithinZone(Vector3 currentPos)
         {
-            return currentFloat >= limit | currentFloat <= -limit;
+            float halfLevelSizeX = levelSize.x / 2f;
+            float halfLevelSizeY = levelSize.y / 2f;
+
+            float dist = Vector3.Distance(currentPos, levelOffset);
+
+            return dist < halfLevelSizeX && dist > -halfLevelSizeX || dist < halfLevelSizeY && dist > -halfLevelSizeY;
         }
 
 
@@ -337,6 +433,14 @@ namespace Level
             }
 
             return null;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static T GetRandomElement<T>(this List<T> list)
+        {
+            return list[Random.Range(0, list.Count - 1)];
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Ship.Weapons
         public GameObject bulletPrefab;
         public float bulletLifetime;
 
-        public override void OnFireBehaviour(Transform owner)
+        public override void OnFireBehaviour(Transform barrel, Transform owner)
         {
             Bullet spawnedBullet = ObjectPooler.GetPooledObject(bulletPrefab).GetComponent<Bullet>();
             spawnedBullet.lifetime = bulletLifetime;
@@ -21,10 +21,10 @@ namespace Ship.Weapons
             spawnedBullet.damage = bulletDamage;
             spawnedBullet.ownerID = owner.GetInstanceID();
             var transform = spawnedBullet.transform;
-            if (owner)
+            if (barrel)
             {
-                transform.rotation = owner.rotation;
-                transform.position = owner.position;
+                transform.rotation = barrel.rotation;
+                transform.position = barrel.position;
             }
             else
             {

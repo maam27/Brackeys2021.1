@@ -12,6 +12,7 @@ namespace Ship
         private Camera m_MainCam;
         private ShipInputHandler m_InputHandler;
         private DamageableComponent m_DamageComponent;
+    
         public float shipSpeed;
 
         // Start is called before the first frame update

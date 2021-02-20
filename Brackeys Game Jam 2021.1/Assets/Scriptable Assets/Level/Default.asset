@@ -15,13 +15,16 @@ MonoBehaviour:
   startingAsteroidAmm: 5
   maxAsteroidAmm: 100
   asteroidFields:
-  - spawnRate: 2
+  - initialSpawnDelayOnSpawningAsteroidField: 3
+    spawnRate: 2
     spawnAmount: 5
     delayToSpawnNextAsteroidField: 3
-  - spawnRate: 0.75
+  - initialSpawnDelayOnSpawningAsteroidField: 0
+    spawnRate: 0.75
     spawnAmount: 12
-    delayToSpawnNextAsteroidField: 5
-  - spawnRate: 0.5
-    spawnAmount: 15
     delayToSpawnNextAsteroidField: 3
+  - initialSpawnDelayOnSpawningAsteroidField: 1
+    spawnRate: 0.5
+    spawnAmount: 12
+    delayToSpawnNextAsteroidField: 2.5
   spawnRadiusNearPlayer: 75

@@ -7,7 +7,7 @@ namespace Interactivity
     {
         public float maxHealth;
         public float currentHealth;
-
+        public event Action ONDeathCallback;
 
         private void OnEnable()
         {
@@ -27,6 +27,7 @@ namespace Interactivity
         public void Die()
         {
             gameObject.SetActive(false);
+            ONDeathCallback?.Invoke();
         }
     }
 }

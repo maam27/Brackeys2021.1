@@ -11,13 +11,13 @@ namespace Ship.Weapons
 
         [Expose] public BaseFireBehaviour fireBehaivourCallback;
 
-        public void Fire(bool fireButton, Transform holder = null)
+        public void Fire(bool fireButton, Transform barrel = null, Transform owner = null)
         {
             m_CurrentTime += Time.deltaTime;
             if (fireButton && m_CurrentTime >= fireRate)
             {
                 if (fireBehaivourCallback)
-                    fireBehaivourCallback.OnFireBehaviour(holder);
+                    fireBehaivourCallback.OnFireBehaviour(barrel, owner);
                 m_CurrentTime = 0;
             }
         }
