@@ -6,19 +6,20 @@ namespace Interactivity
     public class DamageableComponent : MonoBehaviour
     {
         public float maxHealth;
-        public float currentHealth;
+        private float m_CurrentHealth;
         public event Action ONDeathCallback;
+        public float CurrentHealth => m_CurrentHealth;
 
         private void OnEnable()
         {
-            currentHealth = maxHealth;
+            m_CurrentHealth = maxHealth;
         }
         
 
         public void TakeDamage(float damage)
         {
-            currentHealth -= damage;
-            if (currentHealth <= 0)
+            m_CurrentHealth -= damage;
+            if (m_CurrentHealth <= 0)
             {
                 Die();
             }
