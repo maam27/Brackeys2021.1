@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -35,8 +33,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //movement
-        float sidewaysMovement = Input.GetAxis("Horizontal");
-        float forwardMovement = Input.GetAxis("Vertical");
+        float sidewaysMovement = UnityEngine.Input.GetAxis("Horizontal");
+        float forwardMovement = UnityEngine.Input.GetAxis("Vertical");
         trueInputVector = transform.forward * forwardMovement + transform.right * sidewaysMovement;
 
         ////rotation
