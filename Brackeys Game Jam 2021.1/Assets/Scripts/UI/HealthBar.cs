@@ -1,5 +1,6 @@
 using System;
 using Interactivity;
+using Ship;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -16,6 +17,9 @@ namespace UI
         private void Awake()
         {
             m_HealthBar = GetComponent<Slider>();
+            targetHealthToDisplay = targetHealthToDisplay
+                ? targetHealthToDisplay
+                : transform.parent.parent.GetComponentInChildren<DamageableComponent>();
         }
 
 

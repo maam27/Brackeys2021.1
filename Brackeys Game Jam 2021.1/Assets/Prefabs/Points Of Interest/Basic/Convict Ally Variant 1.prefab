@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6774176318577136105
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 989714515466423567, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 87aff9452912a13429ac379c348242f6, type: 2}
+    - target: {fileID: 3289317068007891888, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95a66a894013cd14dbf0ea6f39fb39d4, type: 2}
+    - target: {fileID: 3386514882056225389, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_Name
+      value: Convict Ally Variant 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: weaponModifiers
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c2c9dee3d7c6684db9ae73c5eff87fa, type: 2}
+    - target: {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: dialogPresets.Array.data[0]
+      value: Thanks! Now for some payback!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: dialogPresets.Array.data[1]
+      value: Since i am in your dept, allow me to upgrade your weapons!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: dialogPresets.Array.data[2]
+      value: I thought i was a goner..  let me power up your weapons!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: dialogPresets.Array.data[3]
+      value: We will need more fire power if we are going to escape!
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010150833275408783, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba88937da867521468eb061f022ee3c8, type: 3}

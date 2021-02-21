@@ -206,8 +206,12 @@
           <e p="Scriptable Asset Definitions" t="Include">
             <e p="AsteroidSettings.cs" t="Include" />
             <e p="EnemySpawnProfile.cs" t="Include" />
+            <e p="Modifiers" t="Include">
+              <e p="ModifierDef.cs" t="Include" />
+              <e p="ShipModifier.cs" t="Include" />
+              <e p="WeaponModifier.cs" t="Include" />
+            </e>
             <e p="TargetWaypointListProfile.cs" t="Include" />
-            <e p="WeaponModifier.cs" t="Include" />
           </e>
           <e p="Ship" t="Include">
             <e p="ShipController.cs" t="Include" />

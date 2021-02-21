@@ -1,5 +1,6 @@
 using Level;
 using Scriptable_Asset_Definitions;
+using Scriptable_Asset_Definitions.Modifiers;
 using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
 
@@ -11,13 +12,13 @@ namespace Ship.Weapons
     {
         public float bulletDamage;
         public float bulletVelocity;
-        public GameObject bulletPrefab;
+        public Bullet bulletPrefab;
         public float bulletLifetime;
 
         public override void OnFireBehaviour(Transform barrel, Transform owner,
             WeaponModifier currentModifiers)
         {
-            Bullet spawnedBullet = ObjectPooler.GetPooledObject(bulletPrefab).GetComponent<Bullet>();
+            Bullet spawnedBullet = ObjectPooler.GetPooledObject(bulletPrefab);
             spawnedBullet.lifetime = bulletLifetime;
             spawnedBullet.velocity =
                 currentModifiers ? bulletVelocity + currentModifiers.bonusVelocity : bulletVelocity;

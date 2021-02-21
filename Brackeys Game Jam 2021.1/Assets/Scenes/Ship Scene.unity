@@ -5935,10 +5935,15 @@ MonoBehaviour:
   goalTrackerPrefab: {fileID: 8516017862926820602, guid: b21c288b0ee7def4aab7a74c56eb354c, type: 3}
   waypointIndicator: {fileID: 3981230811937371234, guid: a71ae4bbea2761e44a302947b1cd8e26, type: 3}
   convictAlliesPresets:
-  - {fileID: 0}
-  convictAlliesAmm: 50
-  minDistanceBetweenConvictAllies: 50
-  contactRange: 25
+  - {fileID: 3888822463643955560, guid: ba88937da867521468eb061f022ee3c8, type: 3}
+  - {fileID: 7779240570830577793, guid: 88777e90eeeca814991b78795564656a, type: 3}
+  - {fileID: 5476468572657006047, guid: ca1c13972c076ea439ede26dc2b9ae62, type: 3}
+  - {fileID: 7238653363293146281, guid: 249f2b4bda2f7d04e97e774301fae143, type: 3}
+  - {fileID: 6928431561468049810, guid: 66ce015ae3b5e1846bc482856a7ce89b, type: 3}
+  - {fileID: 4965695489714742550, guid: a47daa521665fac448db501520813258, type: 3}
+  convictAlliesAmm: 75
+  contactRange: 15
+  detectionRange: 75
   spawnAsteroids: 1
   manuallyControlAsteroidSpawnRate: 0
   spawnRate: 0.5
@@ -6959,6 +6964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ecdd68070f3af0418cd8c088ed37fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentModifier: {fileID: 0}
   shipSpeed: 5
 --- !u!65 &1999599920488652771
 BoxCollider:

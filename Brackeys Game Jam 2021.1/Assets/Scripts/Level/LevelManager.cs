@@ -8,6 +8,7 @@ using Ship;
 using Ship.Weapons.Weapon_Fire;
 using UnityEngine;
 using Utility.Attributes;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Level
@@ -59,8 +60,8 @@ namespace Level
 
         [Header("Convict Allies Information")] public List<ConvictAlly> convictAlliesPresets = new List<ConvictAlly>();
         public int convictAlliesAmm = 50;
-        public float minDistanceBetweenConvictAllies = 50f;
         public float contactRange = 25f;
+        public float detectionRange = 75f;
 
         [Header("Debug Stuff - Asteroids")] public bool spawnAsteroids = true;
         public bool manuallyControlAsteroidSpawnRate;
@@ -79,6 +80,7 @@ namespace Level
         private List<BaseEnemy> m_RegistedEnemies = new List<BaseEnemy>();
         private List<ParticleSystem> m_RegisteredEmitters = new List<ParticleSystem>();
         private List<ConvictAlly> m_RegisteredConvictAllies = new List<ConvictAlly>();
+        private List<GameObject> m_RegisteredConvictTrackers = new List<GameObject>();
 
         private TargetWaypointListProfile m_SelectedProfile;
         [Space] [SerializeField] private int currentTargetFocus = 0;
@@ -102,7 +104,7 @@ namespace Level
                   Instantiate(Resources.Load<GameObject>("Player/Ship"), Vector3.zero, Quaternion.identity)
                       .GetComponentInChildren<ShipController>();
 
-            //GeneratePointsOfInterests();
+            GeneratePointsOfInterests();
 
 
             if (!m_PlayerShip)
@@ -125,7 +127,7 @@ namespace Level
             for (int i = 0; i < convictAlliesAmm; i++)
             {
                 ConvictAlly ally = ObjectPooler.GetPooledObject(convictAlliesPresets.GetRandomElement(), 50);
-                ally.transform.position = ally.GetRandomPositionWithinLevel(minDistanceBetweenConvictAllies);
+                ally.transform.position = ally.GetRandomPositionWithinLevel(levelOffset, levelSize.x / 2f);
                 ally.gameObject.SetActive(true);
                 m_RegisteredConvictAllies.Add(ally);
             }
@@ -147,7 +149,9 @@ namespace Level
         {
             KIllPlayerOnExceedingPosLeveLSize();
             DetectIfPlayerHasReachedCurrentTarget();
+            DetectIfPlayerHasReachedAPointOfInterest();
             TrackTargetPosition();
+            TrackNearbyPointsOfInterest();
         }
 
         private void TrackTargetPosition()
@@ -174,6 +178,38 @@ namespace Level
             else
             {
                 m_RegistedTracker.SetActive(false);
+            }
+        }
+
+        private void TrackNearbyPointsOfInterest()
+        {
+            if (!m_PlayerShip) return;
+
+            List<ConvictAlly> nearbyAllies = m_RegisteredConvictAllies.Where(c =>
+                Vector3.Distance(c.transform.position, m_PlayerShip.transform.position) <= detectionRange).ToList();
+
+            foreach (var tracker in m_RegisteredConvictTrackers)
+            {
+                tracker.SetActive(false);
+            }
+            m_RegisteredConvictTrackers.Clear();
+
+            for (int i = 0; i < nearbyAllies.Count; i++)
+            {
+                if(!nearbyAllies[i].gameObject.activeSelf) continue;
+                GameObject tracker =
+                    ObjectPooler.GetPooledObject(Resources.Load<GameObject>("Player/Tracker/Convict Tracker"));
+                tracker.SetActive(true);
+                var position1 = m_PlayerShip.transform.position;
+                tracker.transform.position = position1;
+
+
+                Vector3 dir = nearbyAllies[i].transform.position - position1;
+                tracker.transform.localRotation = Quaternion.LookRotation(
+                    dir,
+                    Vector3.up);
+                
+                m_RegisteredConvictTrackers.Add(tracker);
             }
         }
 
@@ -204,7 +240,7 @@ namespace Level
             if (!m_PlayerShip) return;
             ConvictAlly closestAlly = m_RegisteredConvictAllies.FirstOrDefault(c =>
                 Vector3.Distance(c.transform.position, m_PlayerShip.transform.position) <= contactRange);
-            if (!closestAlly) return;
+            if (!closestAlly || closestAlly.hasBeenAlreadyHelped) return;
             closestAlly.HelpPlayer(m_PlayerShip);
         }
 
@@ -427,13 +463,6 @@ namespace Level
         }
 
 
-        public bool IsObjectInVicinityOfAnotherObject(GameObject objectA, GameObject objectB,
-            float minDistanceBetweenObjects)
-        {
-            float distance = Vector3.Distance(objectA.transform.position, objectB.transform.position);
-            return distance < minDistanceBetweenObjects;
-        }
-
         public bool IsObjectInVicinityOfAnotherObject(Vector3 objectA, Vector3 objectB,
             float minDistanceBetweenObjects)
         {
@@ -546,7 +575,20 @@ namespace Level
             int id = objToFind.GetInstanceID();
 
             if (PoolerDictionary.ContainsKey(id))
-                return PoolerDictionary[id].FirstOrDefault(g => !g.activeSelf);
+            {
+                GameObject result = PoolerDictionary[id].FirstOrDefault(g => !g.activeSelf);
+                if (!result)
+                {
+                    GameObject clone = Object.Instantiate(PoolerDictionary[id][0],
+                        PoolerDictionary[id][0].transform.parent);
+                    clone.SetActive(false);
+                    PoolerDictionary[id].Add(clone);
+                    result = clone;
+                }
+
+                return result;
+            }
+
             if (PoolGameObject(objToFind, objectToPoolAmm))
             {
                 return GetPooledObject(objToFind);

@@ -1,6 +1,8 @@
 using System;
 using Input;
 using Interactivity;
+using Scriptable_Asset_Definitions;
+using Scriptable_Asset_Definitions.Modifiers;
 using UnityEngine;
 
 namespace Ship
@@ -12,16 +14,20 @@ namespace Ship
         private Camera m_MainCam;
         private ShipInputHandler m_InputHandler;
         private DamageableComponent m_DamageComponent;
-    
+        public ShipModifier currentModifier;
+
         public float shipSpeed;
 
         // Start is called before the first frame update
         void Awake()
         {
+            currentModifier = ScriptableObject.CreateInstance<ShipModifier>();
             m_Rb = GetComponent<Rigidbody>();
             m_InputHandler = GetComponent<ShipInputHandler>();
             m_DamageComponent = GetComponent<DamageableComponent>();
             m_MainCam = Camera.main;
+
+            currentModifier.bonusHealth = m_DamageComponent.maxHealth;
         }
 
 
@@ -34,6 +40,7 @@ namespace Ship
             m_Input = m_InputHandler.GetMovementInput;
             m_MousePos = GetMousePositionInWorldCoordinates(m_InputHandler.GetMousePositionInput);
             RotateShipTowards(m_MousePos);
+            m_DamageComponent.maxHealth = currentModifier.bonusHealth;
         }
 
         private Vector3 GetMousePositionInWorldCoordinates(Vector3 mousePosInPixelCoordinates)
@@ -52,7 +59,7 @@ namespace Ship
 
         private void FixedUpdate()
         {
-            MoveShip(m_Input, shipSpeed);
+            MoveShip(m_Input, shipSpeed + (currentModifier ? currentModifier.bonusSpeed : 0));
         }
 
 
